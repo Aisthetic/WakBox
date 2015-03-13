@@ -6,6 +6,7 @@
 
 template <typename T> class Singleton : public QObject
 {
+
 public:
     static T* Instance()
     {

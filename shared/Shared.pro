@@ -2,18 +2,17 @@
 # QT include
 #---------------------------
 
-QT       += core network sql
-QT       -= gui
+QT += core sql network
+QT -= gui
 
 #---------------------------
 # basic configuration
 #---------------------------
 
-TARGET = authserver #target app name
-CONFIG   += console #is a console
-CONFIG   -= app_bundle #not need the app bundle
+TEMPLATE = lib
+CONFIG += staticlib
 
-TEMPLATE = app #app template
+TARGET = shared
 
 #---------------------------
 #  build configuration
@@ -28,10 +27,10 @@ RCC_DIR = $${WAKBOX_TOP_DIR}/build/.qrc/$$TARGET
 UI_DIR = $${WAKBOX_TOP_DIR}/build/.ui/$$TARGET
 
 #---------------------------
-# library and dep
+# library
 #---------------------------
 
-# openssl
+#openssl
 unix {
    PKGCONFIG += openssl
 }
@@ -43,24 +42,18 @@ win32 {
     INCLUDEPATH += C:/OpenSSL-Win32/include
 }
 
-# shared
-LIBS += -L../shared -l"$$DESTDIR/shared"
 
 #----------------------------
-# include file
-#----------------------------
-
-INCLUDEPATH += . ../shared
-DEPENDPATH  += . ../shared
-
-
-#---------------------------
 # project file
-#---------------------------
+#----------------------------
 
-SOURCES += main.cpp \
-    AuthServer.cpp \
-    AuthSession.cpp
+#SOURCES += $$PWD/*.cpp
+HEADERS += $$PWD/*.h
 
-HEADERS += AuthServer.h \
-    AuthSession.h
+include(Configuration/Configuration.pri)
+include(Cryptography/Cryptography.pri)
+include(Databases/Databases.pri)
+include(Logs/Logs.pri)
+include(Network/Network.pri)
+include(Packets/Packets.pri)
+include(Utils/Utils.pri)

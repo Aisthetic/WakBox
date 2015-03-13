@@ -1,12 +1,14 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2012-12-09T16:39:56
-#
-#-------------------------------------------------
+#---------------------------
+# QT include
+#---------------------------
 
 QT       += core network sql
-
 QT       -= gui
+
+
+#---------------------------
+# basic configuration
+#---------------------------
 
 TARGET = worldserver
 CONFIG   += console
@@ -14,17 +16,47 @@ CONFIG   -= app_bundle
 
 TEMPLATE = app
 
+#---------------------------
+#  build configuration
+#---------------------------
+
+release : DESTDIR = $${WAKBOX_TOP_DIR}/build/release
+debug : DESTDIR = $${WAKBOX_TOP_DIR}/build/debug
+
+OBJECTS_DIR = $${WAKBOX_TOP_DIR}/build/.obj/$$TARGET
+MOC_DIR = $${WAKBOX_TOP_DIR}/build/.moc/$$TARGET
+RCC_DIR = $${WAKBOX_TOP_DIR}/build/.qrc/$$TARGET
+UI_DIR = $${WAKBOX_TOP_DIR}/build/.ui/$$TARGET
+
+#---------------------------
+# library
+#---------------------------
+
+#openssl
 unix {
-    LIBS += -L"/usr/lib/libcryptopp" -lcryptopp
+   PKGCONFIG += openssl
 }
 
 win32 {
-    LIBS += -L"C:/CryptoCPP/lib" -lcryptopp562
-    INCLUDEPATH += C:/CryptoCPP/include
+    LIBS += -LC:/OpenSSL-Win32/lib -lubsec
+    LIBS += -LC:/OpenSSL-Win32/lib -lssleay32
+    LIBS += -LC:/OpenSSL-Win32/lib -llibeay32
+    INCLUDEPATH += C:/OpenSSL-Win32/include
 }
 
+#shared
+LIBS += -L../shared -l"$$DESTDIR/shared"
+
+#----------------------------
+# include file
+#----------------------------
+
 INCLUDEPATH += . ../dep ../shared ../worldserver ../worldserver/Game
-DEPENDPATH += . ../dep ../shared ../worldserver ../worldserver/Game
+DEPENDPATH += . ../dep  ../shared ../worldserver ../worldserver/Game
+
+#---------------------------
+# project file
+#---------------------------
 
 SOURCES += main.cpp \
     WorldServer.cpp
@@ -32,6 +64,5 @@ SOURCES += main.cpp \
 HEADERS += WorldServer.h
 
 include(../dep/Dep.pri)
-include(../shared/Shared.pri)
 include(Game/Game.pri)
 include(Scripts/Scripts.pri)
