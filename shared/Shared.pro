@@ -18,8 +18,12 @@ TARGET = shared
 #  build configuration
 #---------------------------
 
-release : DESTDIR = $${WAKBOX_TOP_DIR}/build/release
-debug : DESTDIR = $${WAKBOX_TOP_DIR}/build/debug
+CONFIG( debug, debug|release ) {
+    DESTDIR = $${WAKBOX_TOP_DIR}/build/debug
+}
+else {
+    DESTDIR = $${WAKBOX_TOP_DIR}/build/release
+}
 
 OBJECTS_DIR = $${WAKBOX_TOP_DIR}/build/.obj/$$TARGET
 MOC_DIR = $${WAKBOX_TOP_DIR}/build/.moc/$$TARGET
@@ -30,18 +34,25 @@ UI_DIR = $${WAKBOX_TOP_DIR}/build/.ui/$$TARGET
 # library
 #---------------------------
 
-#openssl
+#cryptopp
 unix {
-   PKGCONFIG += openssl
+   LIBS += -L"/usr/lib/libcryptopp" -lcryptopp
 }
-
 win32 {
-    LIBS += -LC:/OpenSSL-Win32/lib -lubsec
-    LIBS += -LC:/OpenSSL-Win32/lib -lssleay32
-    LIBS += -LC:/OpenSSL-Win32/lib -llibeay32
-    INCLUDEPATH += C:/OpenSSL-Win32/include
+
+    CONFIG( debug, debug|release ) {
+        LIBS += -L"$${WAKBOX_TOP_DIR}/dep/cryptopp" -lcryptlib_d #debug lib
+    }
+    else {
+        LIBS += -L"$${WAKBOX_TOP_DIR}/dep/cryptopp" -lcryptlib #release lib
+    }
+
+  INCLUDEPATH += $${WAKBOX_TOP_DIR}/dep/cryptopp
 }
 
+#disable this warning - too much on cryptopp
+QMAKE_CXXFLAGS_WARN_ON -= -w34100 -w34189 #MSCV
+QMAKE_CXXFLAGS += -isystem $${WAKBOX_TOP_DIR}/dep/cryptopp #MinGW
 
 #----------------------------
 # project file

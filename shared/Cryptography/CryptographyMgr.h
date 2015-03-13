@@ -2,10 +2,11 @@
 #define CRYPTOGRAPHY_H
 
 #include <QtCore>
-#include <openssl/rsa.h>
-#include <openssl/pkcs12.h>
-#include <openssl/rand.h>
-#include <openssl/crypto.h>
+#include <osrng.h>
+#include <hex.h>
+#include <randpool.h>
+#include <rsa.h>
+#include <files.h>
 #include "Utils/Singleton.h"
 
 class CryptographyMgr : public Singleton<CryptographyMgr>
@@ -22,7 +23,7 @@ public:
     QByteArray Decrypt(QByteArray buffer);
 
 private:
-    QByteArray m_privateKey;
+    CryptoPP::InvertibleRSAFunction m_privateKey;
     QByteArray m_publicKey;
 };
 
