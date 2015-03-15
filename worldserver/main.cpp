@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
     Log::Write(LOG_TYPE_NORMAL, "  WW   WW   aaa aa kk  kk BBBBBB   oooo  xx  xx ");
     Log::Write(LOG_TYPE_NORMAL, "");
     Log::Write(LOG_TYPE_NORMAL, "Wakfu sandbox developped by Sgt Fatality.");
-    Log::Write(LOG_TYPE_NORMAL, "Special thanks to : Boredom, Velocity, scalexm, nightwolf93, Smarken, Crystal.");
+    Log::Write(LOG_TYPE_NORMAL, "Special thanks to : Boredom, Velocity, scalexm, nightwolf93, Smarken, Crystal, Totomakers.");
     Log::Write(LOG_TYPE_NORMAL, "");
 
     if (!sWorldServer->Initialize())

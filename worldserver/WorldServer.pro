@@ -2,17 +2,18 @@
 # QT include
 #---------------------------
 
-QT       += core network sql
-QT       -= gui
-
+QT += core network sql
+QT -= gui
 
 #---------------------------
 # basic configuration
 #---------------------------
 
 TARGET = worldserver
-CONFIG   += console
-CONFIG   -= app_bundle
+CONFIG += console
+CONFIG -= app_bundle
+
+CONFIG += c++11 #enable c++11
 
 TEMPLATE = app
 
@@ -37,27 +38,57 @@ UI_DIR = $${WAKBOX_TOP_DIR}/build/.ui/$$TARGET
 # library
 #---------------------------
 
+#----------
 #cryptopp
+#----------
+
 unix {
-   LIBS += -L"/usr/lib/libcryptopp" -lcryptopp
+   LIBS += -L"$${UNIX_CRYPTOPP_DIR}" -lcryptopp
 }
 win32 {
-    CONFIG( debug, debug|release ) {
-        LIBS += -L"$${WAKBOX_TOP_DIR}/dep/cryptopp" -lcryptlib_d #debug lib
-    }
-    else {
-        LIBS += -L"$${WAKBOX_TOP_DIR}/dep/cryptopp" -lcryptlib #release lib
+    #cryptopp folder select
+    CRYPTOPP_ARCH_DIR = "x32"
+
+    #building with win and msvc on x64
+    win32-msvc*:contains(QMAKE_TARGET.arch, x86_64):{
+        CRYPTOPP_ARCH_DIR = "x64"
     }
 
-  INCLUDEPATH += $${WAKBOX_TOP_DIR}/dep/cryptopp
+    #MSVC
+    win32-msvc*: {
+        CONFIG( debug, debug|release ) {
+            LIBS += -L"$${WIN_CRYPTOPP_DIR}" -l"$${WIN_CRYPTOPP_DIR}/$${CRYPTOPP_ARCH_DIR}/cryptlib_d" #debug lib
+        }
+        else {
+            LIBS += -L"$${WIN_CRYPTOPP_DIR}"  -l"$${WIN_CRYPTOPP_DIR}/$${CRYPTOPP_ARCH_DIR}/cryptlib" #release lib
+        }
+    }
+
+    #MinGW
+    win32-g++: {
+        CONFIG( debug, debug|release ) {
+            LIBS += $${WIN_CRYPTOPP_DIR}/$${CRYPTOPP_ARCH_DIR}/libcryptopp_d.a
+            LIBS += $${WIN_CRYPTOPP_DIR}/$${CRYPTOPP_ARCH_DIR}/cryptopp_d.dll
+        }
+        else {
+            LIBS += $${WIN_CRYPTOPP_DIR}/$${CRYPTOPP_ARCH_DIR}/libcryptopp.a
+            LIBS += $${WIN_CRYPTOPP_DIR}/$${CRYPTOPP_ARCH_DIR}/cryptopp.dll
+        }
+    }
+
+    INCLUDEPATH += $${WIN_CRYPTOPP_DIR}
 }
 
 #disable this warning - too much on cryptopp
-QMAKE_CXXFLAGS_WARN_ON -= -w34100 -w34189 #MSVC
-QMAKE_CXXFLAGS += -isystem $${WAKBOX_TOP_DIR}/dep/cryptopp #MinGW
+win32-msvc*: QMAKE_CXXFLAGS_WARN_ON -= -w34100 -w34189 #MSVC
+win32-g++: QMAKE_CXXFLAGS += -isystem $${WIN_CRYPTOPP_DIR} #MinGW
+
+#-------------
+
 
 #shared
-LIBS += -L../shared -l"$${DESTDIR}/shared"
+win32-msvc*: LIBS += -L../shared -l"$${DESTDIR}/shared" #MSVC shared lib
+win32-g++: LIBS += $${DESTDIR}/libshared.a #MinGW shared lib
 
 #----------------------------
 # include file
@@ -69,6 +100,8 @@ DEPENDPATH += . ../dep  ../shared ../worldserver ../worldserver/Game
 #---------------------------
 # project file
 #---------------------------
+
+INCLUDEPATH += $$PWD
 
 SOURCES += main.cpp \
     WorldServer.cpp
