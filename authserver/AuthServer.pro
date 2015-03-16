@@ -17,6 +17,10 @@ CONFIG += c++11 #enable c++11
 
 TEMPLATE = app #app template
 
+win32 {
+    RC_FILE = AuthServer.rc
+}
+
 #---------------------------
 #  build configuration
 #---------------------------

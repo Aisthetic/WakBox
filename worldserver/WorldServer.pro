@@ -17,6 +17,11 @@ CONFIG += c++11 #enable c++11
 
 TEMPLATE = app
 
+win32 {
+    RC_FILE = WorldServer.rc
+}
+
+
 #---------------------------
 #  build configuration
 #---------------------------
