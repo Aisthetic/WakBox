@@ -29,5 +29,5 @@ Makefile*
 *.qmlproject.user.*
 
 # Build directory
-
 build/
+
