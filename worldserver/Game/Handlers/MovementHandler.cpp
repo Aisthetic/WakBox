@@ -18,7 +18,6 @@ void WorldSession::HandleCharMovement(WorldPacket& packet)
         steps[i] = (direction >> 5) & 0x7;
     }
 
-
     // Todo check coords with map file, collision, etc. ?
     Character* character = GetCharacter();
     if (!character)

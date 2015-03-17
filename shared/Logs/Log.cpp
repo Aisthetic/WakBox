@@ -1,4 +1,5 @@
 #include "Log.h"
+#include "Console/ConsoleAppender.h"
 
 template<> Log*  Singleton<Log>::m_instance = 0;
 
@@ -15,10 +16,12 @@ Log::~Log()
         m_file->close();
 }
 
-void Log::Initialize(ushort logConsoleLevel, ushort logFileLevel, QString logFile)
+void Log::Initialize(ushort logConsoleLevel, ushort logFileLevel, QString logFile, QStringList colors)
 {
     m_logTypeConsole = LogType(logConsoleLevel);
     m_logTypeFile = LogType(logFileLevel);
+
+    InitializeColors(colors);
     OpenFile(logFile);
 }
 
@@ -38,11 +41,11 @@ void Log::OpenFile(QString fileName)
 void Log::WriteLog(QString logMessage, LogType logType)
 {
     if (logType <= m_logTypeConsole)
-        cout << logMessage.toLatin1().data() << endl;
+         ConsoleAppender::WriteLine(m_logConsoleColor[logType], logMessage);
 
     if(m_file && logType <= m_logTypeFile)
     {
-        m_file->write(logMessage.toLatin1() + "\n");
+        m_file->write(logMessage.toUtf8() + "\n");
         m_file->flush();
     }
 }
@@ -54,8 +57,32 @@ void Log::Write(LogType logType, QString message, ...)
     va_list ap;
     va_start(ap, message);
     QString logMessage;
-    logMessage.vsprintf(message.toLatin1().data(), ap);
+    logMessage.vsprintf(message.toUtf8().data(), ap);
 
     logMessage = logTypeString + logMessage;
     Log::Instance()->WriteLog(logMessage, logType);
+
+    va_end(ap);
+}
+
+void Log::InitializeColors(QStringList colors)
+{
+    // default colors value
+    m_logConsoleColor[LOG_TYPE_NORMAL] = ConsoleAppender::eColor::YELLOW;
+    m_logConsoleColor[LOG_TYPE_DETAIL] = ConsoleAppender::eColor::MAGENTA;
+    m_logConsoleColor[LOG_TYPE_DEBUG] = ConsoleAppender::eColor::RED;
+
+    //parse
+    for(int i=0; i < LOG_TYPE_MAX; i++)
+    {
+        QString logType = colors.value(i, "");
+        if(logType != "")
+        {
+            bool convertToColor = false;
+            int color = logType.toInt(&convertToColor);
+
+            if(convertToColor)
+                m_logConsoleColor[(LogType)i] = (ConsoleAppender::eColor)color;
+        }
+    }
 }

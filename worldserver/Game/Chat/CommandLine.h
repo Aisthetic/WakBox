@@ -4,6 +4,7 @@
 #include <QtCore>
 #include <iostream>
 
+#include "Console/ConsoleAppender.h"
 #include "Chat.h"
 #include "World/World.h"
 
@@ -19,9 +20,13 @@ public:
     {
         while (World::Instance()->IsRunning())
         {
-            cout << "Wakbox>";
+            ConsoleAppender::Write(ConsoleAppender::eColor::LIGHTCYAN, "Wakbox>");
             fflush(stdout);
 
+            std::string command;
+            std::getline(std::cin, command);
+
+            /*
             char* command_str;
             char commandbuff[256];
 
@@ -51,7 +56,7 @@ public:
             {
                 // Close WorldServer, etc. ?????
                 qDebug() << "test";
-            }
+            }*/ //@TODO wtf is that
         }
     }
 };

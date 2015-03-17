@@ -23,3 +23,7 @@ Check /dep/cryptopp/x32 and /dep/cryptopp/x64
 #### Mac :
 
 * @TODO : Not yet tested
+
+### Special Thanks :
+
+Boredom, Velocity, scalexm, nightwolf93, Smarken, Crystal

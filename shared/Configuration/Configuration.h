@@ -16,9 +16,11 @@ public:
     int GetInt(QString name);
     ushort GetUShort(QString name);
     uint GetUInt(QString name);
+    QStringList GetStringList(QString name, QString separator = ";");
 
     bool Load();
     bool Reload() { return Load(); }
+
 
 private:
     QString GetValue(QString name);

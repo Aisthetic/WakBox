@@ -1,5 +1,6 @@
 #include "ConfigMgr.h"
 #include "Logs/Log.h"
+#include "Console/ConsoleAppender.h"
 
 template<> ConfigMgr*  Singleton<ConfigMgr>::m_instance = 0;
 
@@ -50,7 +51,9 @@ bool ConfigMgr::FileExists(QString name)
     bool exists = file.open(QIODevice::ReadOnly);
 
     if (!exists)
-        cout << "Cannot open configuration file " << name.toLatin1().data() << " : " << file.errorString().toLatin1().data() << endl;
+         Log::Write(LOG_TYPE_NORMAL, "Cannot open configuration file %s : %s ",
+                    name.toLatin1().data(),
+                    file.errorString().toLatin1().data());
 
     file.close();
     return exists;

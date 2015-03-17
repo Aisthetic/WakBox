@@ -22,7 +22,7 @@ bool Configuration::Load()
     for (itr = keys.constBegin(); itr != keys.constEnd(); ++itr)
         m_config.insert((*itr), settings.value((*itr)).toString());
 
-    cout << "Configuration file " << m_filename.toLatin1().data() << " successfully loaded." << endl;
+    Log::Write(LOG_TYPE_NORMAL, "Configuration file %s successfully loaded.", m_filename.toLatin1().data());
     return true;
 }
 
@@ -60,4 +60,9 @@ ushort Configuration::GetUShort(QString name)
 uint Configuration::GetUInt(QString name)
 {
     return GetValue(name).toUInt();
+}
+
+QStringList Configuration::GetStringList(QString name, QString separator)
+{
+    return GetValue(name).split(separator);
 }

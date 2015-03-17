@@ -11,12 +11,6 @@ void stop(int /*s*/)
     QCoreApplication::exit();
 }
 
-int close()
-{
-    stop(0);
-    return 0;
-}
-
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
@@ -30,15 +24,17 @@ int main(int argc, char *argv[])
     Log::Write(LOG_TYPE_NORMAL, " WW WWW WW aa  aaa kk kk  BB   BB oo  oo   xx   ");
     Log::Write(LOG_TYPE_NORMAL, "  WW   WW   aaa aa kk  kk BBBBBB   oooo  xx  xx ");
     Log::Write(LOG_TYPE_NORMAL, "");
-    Log::Write(LOG_TYPE_NORMAL, "Wakfu sandbox developped by Sgt Fatality.");
-    Log::Write(LOG_TYPE_NORMAL, "Special thanks to : Boredom, Velocity, scalexm, nightwolf93, Smarken, Crystal, Totomakers.");
+    Log::Write(LOG_TYPE_NORMAL, "Wakfu sandbox developped by Sgt Fatality & Totomakers.");
     Log::Write(LOG_TYPE_NORMAL, "");
+    Log::Write(LOG_TYPE_NORMAL, "Press ctrl + c to quit.");
 
     if (!sAuthServer->Initialize())
-        return close();
+    {
+        stop(0);
+        return a.exec();
+    }
 
-    Log::Write(LOG_TYPE_NORMAL, "Press ctrl + c to quit.");
-    Log::Write(LOG_TYPE_NORMAL, "SumBox::AuthServer started in %s sec.", QString::number(t.elapsed() / IN_MILLISECONDS).toLatin1().data());
+    Log::Write(LOG_TYPE_NORMAL, "WakBox::AuthServer started in %s sec.", QString::number(t.elapsed() / IN_MILLISECONDS).toLatin1().data());
 
     signal(SIGINT, &stop);
     signal(SIGTERM, &stop);

@@ -90,6 +90,7 @@ INCLUDEPATH += $$PWD
 #SOURCES += $$PWD/*.cpp
 HEADERS += $$PWD/*.h
 
+include(Console/Console.pri)
 include(Utils/Utils.pri)
 include(Configuration/Configuration.pri)
 include(Cryptography/Cryptography.pri)

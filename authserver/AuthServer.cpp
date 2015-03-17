@@ -38,7 +38,7 @@ bool AuthServer::Initialize()
     if (!sConfigMgr->LoadAuthConfig("authserver.conf"))
         return false;
 
-    Log::Instance()->Initialize(sAuthConfig->GetUShort("LogConsoleLevel"), sAuthConfig->GetUShort("LogFileLevel"), sAuthConfig->GetString("LogFile"));
+    Log::Instance()->Initialize(sAuthConfig->GetUShort("LogConsoleLevel"), sAuthConfig->GetUShort("LogFileLevel"), sAuthConfig->GetString("LogFile"), sAuthConfig->GetStringList("ConsoleColor"));
     Log::Write(LOG_TYPE_NORMAL, "Starting AuthServer...");
 
     if (!sDatabase->OpenAuthDatabase(sAuthConfig->GetString("AuthDatabase")))
