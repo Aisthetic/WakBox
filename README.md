@@ -1,15 +1,12 @@
-WakBox
-======
+<h1>
+<img alt="WakBox logo" src="https://raw.github.com/KevinSupertramp/WakBox/master/doc/img/logo.png" title="WakBox"/>
+</h1>
 
 Wakfu sandbox written in C++/Qt
 
-
 ### Supported Compilator
 
-*Windows*
-
 You should extract Cryptopp library for your compilator.
-
 Check /dep/cryptopp/x32 and /dep/cryptopp/x64
 
 #### Windows :
