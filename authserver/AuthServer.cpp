@@ -1,6 +1,7 @@
 #include "AuthServer.h"
 #include "Cryptography/CryptographyMgr.h"
 #include "Databases/Database.h"
+#include "Console/ConsoleAppender.h"
 #include "Logs/Log.h"
 
 template<> AuthServer*  Singleton<AuthServer>::m_instance = 0;
@@ -38,7 +39,7 @@ bool AuthServer::Initialize()
     if (!sConfigMgr->LoadAuthConfig("authserver.conf"))
         return false;
 
-    Log::Instance()->Initialize(sAuthConfig->GetUShort("LogConsoleLevel"), sAuthConfig->GetUShort("LogFileLevel"), sAuthConfig->GetString("LogFile"), sAuthConfig->GetStringList("ConsoleColor"));
+    Log::Instance()->Initialize(sAuthConfig->GetUShort("LogConsoleLevel"), sAuthConfig->GetString("LogFile"), sAuthConfig->GetUShort("LogFileLevel"), sAuthConfig->GetIntList("ConsoleColor"));
     Log::Write(LOG_TYPE_NORMAL, "Starting AuthServer...");
 
     if (!sDatabase->OpenAuthDatabase(sAuthConfig->GetString("AuthDatabase")))

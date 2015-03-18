@@ -10,7 +10,7 @@
 #endif
 
 /**
- * @brief Helper for display message in console on color
+ * @brief ConsoleAppender allows display color message in a console
  */
 class ConsoleAppender : public QObject
 {
@@ -41,9 +41,9 @@ public:
     };
 
     /**
-     * @brief Write message on console
-     * @param color wanted color
-     * @param message wanted message
+     * @brief Write write message on console with a specific color
+     * @param color
+     * @param message
      */
     static void Write(eColor color, QString message);
     static void WriteLine(eColor color, QString message) { Write(color, message.append('\n')); }

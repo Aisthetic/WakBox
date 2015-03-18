@@ -9,13 +9,11 @@ ConfigMgr::ConfigMgr()
     m_auth = NULL;
     m_world = NULL;
 }
+
 ConfigMgr::~ConfigMgr()
 {
-    if (m_auth)
-        delete m_auth;
-
-    if (m_world)
-        delete m_world;
+    if (m_auth) delete m_auth;
+    if (m_world) delete m_world;
 
     m_auth = NULL;
     m_world = NULL;
@@ -26,8 +24,7 @@ bool ConfigMgr::LoadAuthConfig(QString name)
     if (FileExists(name))
     {
         m_auth = new Configuration(name);
-        if (m_auth->Load())
-            return true;
+        return m_auth->Load();
     }
 
     return false;
@@ -37,9 +34,8 @@ bool ConfigMgr::LoadWorldConfig(QString name)
 {
     if (FileExists(name))
     {
-        m_world = new Configuration(name);
-        if (m_world->Load())
-            return true;
+        m_world = new Configuration(name);    
+        return m_world->Load();
     }
 
     return false;
@@ -51,7 +47,7 @@ bool ConfigMgr::FileExists(QString name)
     bool exists = file.open(QIODevice::ReadOnly);
 
     if (!exists)
-         Log::Write(LOG_TYPE_NORMAL, "Cannot open configuration file %s : %s ",
+         Log::Write(LOG_TYPE_ERROR, "Cannot open configuration file %s : %s ",
                     name.toLatin1().data(),
                     file.errorString().toLatin1().data());
 

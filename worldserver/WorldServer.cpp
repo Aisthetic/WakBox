@@ -37,9 +37,10 @@ bool WorldServer::Initialize()
 
     Log::Instance()->Initialize(
                 sWorldConfig->GetUShort("LogConsoleLevel"),
-                sWorldConfig->GetUShort("LogFileLevel"),
                 sWorldConfig->GetString("LogFile"),
-                sWorldConfig->GetStringList("LogConsoleColor"));
+                sWorldConfig->GetUShort("LogFileLevel"),
+                sWorldConfig->GetIntList("ConsoleColor"));
+
     Log::Write(LOG_TYPE_NORMAL, "Starting WorldServer...");
 
     if (!sDatabase->OpenAuthDatabase(sAuthConfig->GetString("AuthDatabase")))

@@ -21,7 +21,7 @@ void SocketHandler::OnDisconnect()
 
 void SocketHandler::OnClose()
 {
-    Log::Write(LOG_TYPE_NORMAL, "Closing connection with %s", m_socket->peerAddress().toString().toLatin1().data());
+    Log::Write(LOG_TYPE_INFO, "Closing connection with %s", m_socket->peerAddress().toString().toLatin1().data());
 
     if (m_socket)
         m_socket->deleteLater();

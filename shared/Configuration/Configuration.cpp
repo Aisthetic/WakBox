@@ -32,7 +32,7 @@ QString Configuration::GetValue(QString name)
     if(i != m_config.end())
         return i.value();
 
-    Log::Write(LOG_TYPE_NORMAL, "Trying to get config value \"%s\" but the value don't exist.", name.toLatin1().data());
+    Log::Write(LOG_TYPE_ERROR, "Trying to get config value \"%s\" but the value don't exist.", name.toLatin1().data());
     return QString();
 }
 
@@ -66,3 +66,25 @@ QStringList Configuration::GetStringList(QString name, QString separator)
 {
     return GetValue(name).split(separator);
 }
+
+QList<int> Configuration::GetIntList(QString name, QString separator)
+{
+    QStringList stringList = GetStringList(name, separator);
+    qDebug() << stringList;
+    QList<int> outList;
+
+    for(int i = 0; i < stringList.size(); i++)
+    {
+        bool convertOk;
+        int value = stringList.at(i).toInt(&convertOk);
+
+        if(convertOk)
+            outList.push_back(value);
+        else
+            Log::Write(LOG_TYPE_ERROR, "Trying to convert config value \"%s\" to int but failed.", name.toLatin1().data());
+    }
+
+    return outList;
+}
+
+
