@@ -6,7 +6,7 @@ Wakfu sandbox written in C++/Qt
 
 **Special Thanks : Boredom, Velocity, scalexm, nightwolf93, Smarken, Crystal**
 
-## Precompiled Crypptopp Library
+## Precompiled Cryptopp Library
 
 You should extract Cryptopp library for your compilator.
 Check /dep/cryptopp/x32 and /dep/cryptopp/x64
