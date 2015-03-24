@@ -4,14 +4,13 @@ template<> Log*  Singleton<Log>::m_instance = 0;
 
 Log::Log()
 {
-    m_logTypeConsole = LOG_TYPE_NORMAL;
-    m_logTypeFile = LOG_TYPE_NORMAL;
-
+    m_logTypeConsole = LOG_TYPE_ERROR;
+    m_logTypeFile = LOG_TYPE_ERROR;
 
     m_logConsoleColor[LOG_TYPE_NORMAL] = ConsoleAppender::eColor::WHITE;
+    m_logConsoleColor[LOG_TYPE_ERROR] = ConsoleAppender::eColor::RED;
     m_logConsoleColor[LOG_TYPE_INFO] = ConsoleAppender::eColor::CYAN;
     m_logConsoleColor[LOG_TYPE_DEBUG] = ConsoleAppender::eColor::LIGHTGREEN;
-    m_logConsoleColor[LOG_TYPE_ERROR] = ConsoleAppender::eColor::RED;
 
     m_file = NULL;
 }
@@ -26,11 +25,9 @@ void Log::Initialize(ushort logConsoleLevel, QString logFile, ushort logFileLeve
     m_logTypeConsole = LogType(logConsoleLevel);
     m_logTypeFile = LogType(logFileLevel);
 
-
     for(int i =0; i < colors.count(); i++)
     {
         if(i > LOG_TYPE_MAX) break;
-
         m_logConsoleColor[(LogType)i] = (ConsoleAppender::eColor)colors.at(i);
     }
 
@@ -55,11 +52,11 @@ QString Log::GetLogTypeString(LogType logType)
     switch(logType)
     {
     case LOG_TYPE_INFO:
-        return "[ Info ] ";
+        return "[Info] ";
     case LOG_TYPE_DEBUG:
-        return "[ Debug ] ";
+        return "[Debug] ";
     case LOG_TYPE_ERROR:
-        return "[ Error ] ";
+        return "[Error] ";
     case LOG_TYPE_NORMAL:
     default:
         return "";
@@ -85,11 +82,9 @@ void Log::Write(LogType logType, QString message, ...)
     va_list ap; //va_list is the list of parameters passed after message
 
     va_start(ap, message);
-
     QString logMessage;
     logMessage.vsprintf(message.toUtf8().data(), ap);
     logMessage = logTypeString + logMessage;
     Log::Instance()->WriteLog(logType, logMessage);
-
     va_end(ap); //clean
 }

@@ -70,7 +70,6 @@ QStringList Configuration::GetStringList(QString name, QString separator)
 QList<int> Configuration::GetIntList(QString name, QString separator)
 {
     QStringList stringList = GetStringList(name, separator);
-    qDebug() << stringList;
     QList<int> outList;
 
     for(int i = 0; i < stringList.size(); i++)

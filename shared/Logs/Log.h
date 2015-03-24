@@ -17,9 +17,9 @@ using namespace std;
 enum LogType
 {
     LOG_TYPE_NORMAL = 0,
+    LOG_TYPE_ERROR,
     LOG_TYPE_INFO,
     LOG_TYPE_DEBUG,
-    LOG_TYPE_ERROR,
 
     LOG_TYPE_MAX, //Do not use, just serves to count the number of input
 };
