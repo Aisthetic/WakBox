@@ -4,9 +4,9 @@
 
 Wakfu sandbox written in C++/Qt
 
-Special Thanks : Boredom, Velocity, scalexm, nightwolf93, Smarken, Crystal
+**Special Thanks : Boredom, Velocity, scalexm, nightwolf93, Smarken, Crystal**
 
-## Supported Compilator
+## Precompiled Crypptopp Library
 
 You should extract Cryptopp library for your compilator.
 Check /dep/cryptopp/x32 and /dep/cryptopp/x64
@@ -26,33 +26,29 @@ Check /dep/cryptopp/x32 and /dep/cryptopp/x64
 
 * @TODO : Not yet tested
 
+## Enable MySQL or MariaDB support for QT
 
-## Enable MySQL or MariaDB support for QT :
-
-When you have this kind of error : "QMYSQL driver not loaded", you should compile QT with MariaDB support
-**MariaDB is a fork of MySQL Rather use.**
+When you have this kind of error : "QMYSQL driver not loaded", you should compile QT with MariaDB support.
 
 **on Windows :**
 
-+ Download QT source code - **if you have already QT installed, just launch MaintenanceTool.exe**
++ Download QT source code. If you have already QT installed, just launch MaintenanceTool.exe
 + Download MariaDB(x32) and tick **Client C API Library (Shared)**
 + Open a qt command prompt at **"C:\Qt\YOUR_QT_VERSION\Src\qtbase\src\plugins\sqldrivers\mysql"**
 + Launch the following command line (dir /x  => the directory without spaces)
 
-```
-qmake "INCLUDEPATH+=C:\\PROGRA~2\\MARIAD~1.0\\include\\mysql" "LIBS+=C:\\PROGRA~2\\MARIAD~1.0\\lib\\libmysql.lib" mysql.pro
-make
-```
-change make for nmake if you use MSVC
-
-**nmake doesn't work :**
-Lauch the following command line :
-
-```
-"C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\vcvarsall.bat" x86
-or
-"C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\vcvarsall.bat" x64
-```
+   ```sh
+   qmake "INCLUDEPATH+=C:\\PROGRA~2\\MARIAD~1.0\\include\\mysql" "LIBS+=C:\\PROGRA~2\\MARIAD~1.0\\lib\\libmysql.lib" mysql.pro
+   make
+   ```
+   change make for nmake if you use MSVC<br>
+   if nmake doesn't work lauch the following command line :
+   
+   ```sh
+   "C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\vcvarsall.bat" x86
+   # or
+   "C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\vcvarsall.bat" x64
+   ```
 
 + Copy all files from **C:\Qt\YOUR_QT_VERSION\Src\qtbase\plugins\sqldrivers** except **libmysql.dll** to **C:\Qt\YOUR_QT_VERSION\YOUR_COMPILER_NAME\plugins\sqldrivers**
 
