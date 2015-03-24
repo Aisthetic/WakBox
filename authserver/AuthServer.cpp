@@ -52,7 +52,7 @@ bool AuthServer::Initialize()
 
     if(!Start(QHostAddress::LocalHost, quint16(sAuthConfig->GetInt("AuthServerPort"))))
     {
-        Log::Write(LOG_TYPE_NORMAL, m_server->errorString().toLatin1().data());
+        Log::Write(LOG_TYPE_ERROR, m_server->errorString().toLatin1().data());
         return false;
     }
     else

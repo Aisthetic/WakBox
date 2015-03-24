@@ -46,7 +46,9 @@ int main(int argc, char *argv[])
     commandLine->start();
     worldRunnable->start();
 
+#ifdef Q_OS_LINUX
     signal(SIGINT, &stop);
     signal(SIGTERM, &stop);
+#endif
     return a.exec();
 }

@@ -24,7 +24,7 @@ bool MysqlConnection::Open(bool loadQueries)
 {
     if(!m_db.open())
     {
-        Log::Write(LOG_TYPE_NORMAL, "Error when trying to connect to database %s : %s", m_connectionInfo.database.toLatin1().data(), m_db.lastError().text().toLatin1().data());
+        Log::Write(LOG_TYPE_ERROR, "Error when trying to connect to database %s : %s", m_connectionInfo.database.toLatin1().data(), m_db.lastError().text().toLatin1().data());
         return false;
     }
 
@@ -37,7 +37,7 @@ bool MysqlConnection::Open(bool loadQueries)
 
 bool MysqlConnection::Reconnect()
 {
-    Log::Write(LOG_TYPE_NORMAL, "MySQL connection lost. Trying to reconnect...");
+    Log::Write(LOG_TYPE_ERROR, "MySQL connection lost. Trying to reconnect...");
     Close();
 
     if (Open(false))
@@ -68,11 +68,11 @@ QSqlQuery MysqlConnection::Query(QString sqlQuery, QVariantList args)
 
     if(!query.exec())
     {
-        Log::Write(LOG_TYPE_NORMAL, "SQL error with %s", sqlQuery.toLatin1().data());
-        Log::Write(LOG_TYPE_NORMAL, "[Error %u] %s", query.lastError().number(), query.lastError().text().toLatin1().data());
+        Log::Write(LOG_TYPE_ERROR, "SQL error with %s", sqlQuery.toLatin1().data());
+        Log::Write(LOG_TYPE_ERROR, "[Error %u] %s", query.lastError().number(), query.lastError().text().toLatin1().data());
 
         if (query.lastError().number() == 2013 || query.lastError().number() == 2003)
-            Log::Write(LOG_TYPE_NORMAL, "MySQL connection lost.");
+            Log::Write(LOG_TYPE_ERROR, "MySQL connection lost.");
     }
 
     return query;

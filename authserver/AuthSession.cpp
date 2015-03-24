@@ -37,7 +37,7 @@ AuthSession::AuthSession(QTcpSocket *socket) : SocketHandler(socket)
     m_username = QString();
 
     connect(m_socket, SIGNAL(disconnected()), this, SLOT(OnClose()));
-    Log::Write(LOG_TYPE_NORMAL, "New incoming connection from %s", m_socket->peerAddress().toString().toLatin1().data());
+    Log::Write(LOG_TYPE_INFO, "New incoming connection from %s", m_socket->peerAddress().toString().toLatin1().data());
 
     QStringList ip = GetIp().split(".");
 
@@ -154,6 +154,9 @@ void AuthSession::SendClientVersionResult(QString clientVersion, QString expecte
 {
     QStringList version = expectedVersion.split(".");
 
+    if (clientVersion != expectedVersion)
+        Log::Write(LOG_TYPE_DEBUG, "Wrong client version : wanted %s receive %s", expectedVersion, clientVersion);
+
     WorldPacket data(SMSG_CLIENT_VERSION_RESULT);
     data << (quint8)(clientVersion == expectedVersion);
     data << (quint8)version.at(0).toUShort();
@@ -256,6 +259,13 @@ void AuthSession::HandleRealmsRequest(WorldPacket& /*packet*/)
         data2.StartBlock<int>();
         {
             QStringList version = result.value("version").toString().split(".");
+
+            if(version.length() < 3)
+            {
+                Log::Write(LOG_TYPE_ERROR, "Invalid version pattern (x.x.x) for realmd %s", result.value("name").toString().toLatin1().data());
+                exit(0);
+            }
+
             data2 << (quint8)  version.at(0).toUShort();
             data2 << (quint16) version.at(1).toUShort();
             data2 << (quint8)  version.at(2).toUShort();

@@ -36,7 +36,9 @@ int main(int argc, char *argv[])
 
     Log::Write(LOG_TYPE_NORMAL, "WakBox::AuthServer started in %s sec.", QString::number(t.elapsed() / IN_MILLISECONDS).toLatin1().data());
 
+#ifdef Q_OS_LINUX
     signal(SIGINT, &stop);
     signal(SIGTERM, &stop);
+#endif
     return a.exec();
 }
