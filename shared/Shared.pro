@@ -54,21 +54,21 @@ win32 {
     #MSVC
     win32-msvc*: {
         CONFIG( debug, debug|release ) {
-            LIBS += -L"$${WIN_CRYPTOPP_DIR}" -l"$${WIN_CRYPTOPP_DIR}/$${CRYPTOPP_ARCH_DIR}/cryptlib_d" #debug lib
+            LIBS += -L"$${WIN_CRYPTOPP_DIR}/$${CRYPTOPP_ARCH_DIR}" -lcryptlib_d #debug lib
         }
         else {
-            LIBS += -L"$${WIN_CRYPTOPP_DIR}"  -l"$${WIN_CRYPTOPP_DIR}/$${CRYPTOPP_ARCH_DIR}/cryptlib" #release lib
+            LIBS += -L"$${WIN_CRYPTOPP_DIR}/$${CRYPTOPP_ARCH_DIR}"  -lcryptlib #release lib
         }
     }
 
     #MinGW
     win32-g++: {
         CONFIG( debug, debug|release ) {
-            LIBS += $${WIN_CRYPTOPP_DIR}/$${CRYPTOPP_ARCH_DIR}/libcryptopp_d.a
+            LIBS += -L"$${WIN_CRYPTOPP_DIR}/$${CRYPTOPP_ARCH_DIR}" -lcryptopp_d
             LIBS += $${WIN_CRYPTOPP_DIR}/$${CRYPTOPP_ARCH_DIR}/cryptopp_d.dll
         }
         else {
-            LIBS += $${WIN_CRYPTOPP_DIR}/$${CRYPTOPP_ARCH_DIR}/libcryptopp.a
+            LIBS += -L"$${WIN_CRYPTOPP_DIR}/$${CRYPTOPP_ARCH_DIR}" -lcryptopp
             LIBS += $${WIN_CRYPTOPP_DIR}/$${CRYPTOPP_ARCH_DIR}/cryptopp.dll
         }
     }
