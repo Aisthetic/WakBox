@@ -155,7 +155,7 @@ void AuthSession::SendClientVersionResult(QString clientVersion, QString expecte
     QStringList version = expectedVersion.split(".");
 
     if (clientVersion != expectedVersion)
-        Log::Write(LOG_TYPE_DEBUG, "Wrong client version : wanted %s receive %s", expectedVersion, clientVersion);
+        Log::Write(LOG_TYPE_DEBUG, "Wrong client version : wanted %s receive %s", expectedVersion.toLatin1().data(), clientVersion.toLatin1().data());
 
     WorldPacket data(SMSG_CLIENT_VERSION_RESULT);
     data << (quint8)(clientVersion == expectedVersion);

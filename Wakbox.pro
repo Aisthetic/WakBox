@@ -3,8 +3,8 @@ CONFIG += ordered
 
 #compilation order
 SUBDIRS = shared \
-          worldserver \
-          authserver
+          authserver \
+          worldserver
 
 
 worldserver.file = worldserver/WorldServer.pro

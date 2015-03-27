@@ -109,7 +109,9 @@ INCLUDEPATH += $$PWD
 
 SOURCES += main.cpp \
     AuthServer.cpp \
-    AuthSession.cpp
+    AuthSession.cpp \
+    AuthMain.cpp
 
 HEADERS += AuthServer.h \
-    AuthSession.h
+    AuthSession.h \
+    AuthMain.h

@@ -6,7 +6,6 @@
 
 template <typename T> class Singleton : public QObject
 {
-
 public:
     static T* Instance()
     {
@@ -14,7 +13,10 @@ public:
         if(m_instance == 0)
         {
             mutex.lock();
-            m_instance = new T;
+
+            if(!m_instance) //double check
+                m_instance = new T;
+
             mutex.unlock();
         }
 
@@ -26,6 +28,7 @@ public:
         static QMutex mutex;
         mutex.lock();
         delete m_instance;
+        m_instance = 0; //good pratice to set invalid pointer = 0
         mutex.unlock();
     }
 

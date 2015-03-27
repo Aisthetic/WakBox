@@ -32,4 +32,4 @@ private:
 
 #define sAuthServer AuthServer::Instance()
 
-#endif // WORLDSERVER_H
+#endif // AUTHSERVER_H
