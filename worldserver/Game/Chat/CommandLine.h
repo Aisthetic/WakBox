@@ -26,37 +26,15 @@ public:
             std::string command;
             std::getline(std::cin, command);
 
-            /*
-            char* command_str;
-            char commandbuff[256];
-
-            command_str = fgets(commandbuff, sizeof(commandbuff), stdin);
-
-            if (command_str != NULL)
+            if (command != "")
             {
-                for (int x=0; command_str[x]; ++x)
-                    if (command_str[x] == '\r' || command_str[x] == '\n')
-                    {
-                        command_str[x] = 0;
-                        break;
-                    }
+                QString commandStr = QString::fromStdString(command);
 
-                if (!*command_str)
-                    continue;
+                if (commandStr.size() > 0 && commandStr.at(0) != '.')
+                    commandStr.prepend('.');
 
-                QString command = QString::fromStdString(command_str);
-
-                if (command.isEmpty())
-                    continue;
-
-                fflush(stdout);
-                Chat::Instance()->ParseCommand(command);
+                Chat::Instance()->ParseCommand(commandStr);
             }
-            else if (feof(stdin))
-            {
-                // Close WorldServer, etc. ?????
-                qDebug() << "test";
-            }*/ //@TODO wtf is that
         }
     }
 };
