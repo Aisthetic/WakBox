@@ -31,8 +31,6 @@ public:
             else
                 previousSleepTime = 0;
         }
-
-        qDebug() << "done";
     }
 };
 

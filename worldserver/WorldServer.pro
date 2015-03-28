@@ -109,9 +109,11 @@ DEPENDPATH += . ../dep  ../shared ../worldserver ../worldserver/Game
 INCLUDEPATH += $$PWD
 
 SOURCES += main.cpp \
-    WorldServer.cpp
+    WorldServer.cpp \
+    WorldMain.cpp
 
-HEADERS += WorldServer.h
+HEADERS += WorldServer.h \
+    WorldMain.h
 
 include(../dep/Dep.pri)
 include(Game/Game.pri)

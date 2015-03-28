@@ -18,8 +18,11 @@ public:
 
     virtual void run()
     {
-        while (World::Instance()->IsRunning())
+        forever
         {
+            if(!World::Instance()->IsRunning())
+                break;
+
             ConsoleAppender::Write(ConsoleAppender::eColor::LIGHTCYAN, "Wakbox>");
             fflush(stdout);
 

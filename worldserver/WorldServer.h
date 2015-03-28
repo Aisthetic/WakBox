@@ -15,7 +15,6 @@ public:
     ~WorldServer();
 
     bool Initialize();
-
     bool Start(QHostAddress address, quint16 port);
 
 private slots:
