@@ -5,9 +5,8 @@
 #include "WorldMain.h"
 #include "Logs/Log.h"
 #include "Define.h"
-
 #include "Chat/CommandLine.h"
-#include "World/WorldRunnable.h"
+#include "World/WorldLoop.h"
 
 class WorldMain : public ConsoleApp
 {
@@ -16,13 +15,17 @@ class WorldMain : public ConsoleApp
 public:
     WorldMain(QObject* parent) : ConsoleApp(parent) {}
 
+
 public slots:
     void run();
     void stop();
 
 private :
+    QThread* m_threadCommandLine;
+    QThread* m_threadWorldLoop;
+
     CommandLine* m_commandLine;
-    WorldRunnable* m_worldRunnable;
+    WorldLoop* m_worldLoop;
 };
 
 #endif // AUTHMAIN_H

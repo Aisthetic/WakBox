@@ -20,6 +20,9 @@ public:
 private slots:
     void OnConnect();
 
+signals:
+    void stopped();
+
 private:
     QTcpServer* m_server;
 };

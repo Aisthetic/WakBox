@@ -2,8 +2,33 @@
 
 void WorldMain::run()
 {
+    //=================
+    //Command line init
+    //=================
+
+    m_threadCommandLine = new QThread();
     m_commandLine = new CommandLine();
-    m_worldRunnable = new WorldRunnable();
+    m_commandLine->moveToThread(m_threadCommandLine);
+
+    connect(m_threadCommandLine, SIGNAL(started()), m_commandLine, SLOT(run()));
+    connect(m_commandLine, SIGNAL(finished()), m_threadCommandLine, SLOT(quit()));
+    connect(m_commandLine, SIGNAL(finished()), m_threadCommandLine, SLOT(deleteLater()));
+
+    //===============
+    //World loop init
+    //===============
+
+    m_threadWorldLoop = new QThread();
+    m_worldLoop = new WorldLoop();
+    m_worldLoop->moveToThread(m_threadWorldLoop);
+
+    connect(m_threadWorldLoop, SIGNAL(started()), m_worldLoop, SLOT(run()));
+    connect(m_worldLoop, SIGNAL(finished()), m_threadWorldLoop, SLOT(quit()));
+    connect(m_worldLoop, SIGNAL(finished()), m_threadWorldLoop, SLOT(deleteLater()));
+
+    //===========
+    //World start
+    //===========
 
     QTime t;
     t.start();
@@ -21,15 +46,20 @@ void WorldMain::run()
     if (!sWorldServer->Initialize())
         QCoreApplication::exit();
 
+
     Log::Write(LOG_TYPE_NORMAL, "Worldserver started in %s sec.", QString::number(t.elapsed() / IN_MILLISECONDS).toLatin1().data());
 
-    m_commandLine->start();
-    m_worldRunnable->start();
+    m_threadCommandLine->start();
+    m_threadWorldLoop->start();
 }
 
 void WorldMain::stop()
 {
-    m_commandLine->exit();
-    m_worldRunnable->exit();
+    m_commandLine->stop();
+    m_worldLoop->stop();
+
+    delete m_commandLine;
+    delete m_worldLoop;
+
     sWorldServer->Delete();
 }

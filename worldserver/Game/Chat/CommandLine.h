@@ -8,38 +8,22 @@
 #include "Chat.h"
 #include "World/World.h"
 
-using namespace std;
-
-class CommandLine : public QThread
+class CommandLine : public QObject
 {
     Q_OBJECT
 public:
-    CommandLine(QObject* parent = 0) : QThread(parent) {}
+    CommandLine(QObject* parent = 0) : QObject(parent) { m_stop = false; }
 
-    virtual void run()
-    {
-        forever
-        {
-            if(!World::Instance()->IsRunning())
-                break;
+signals:
+    void finished();
 
-            ConsoleAppender::Write(ConsoleAppender::eColor::LIGHTCYAN, "Wakbox>");
-            fflush(stdout);
+public slots:
+    void run();
+    void stop() { m_stop = true; }
 
-            std::string command;
-            std::getline(std::cin, command);
+ private:
+    bool m_stop;
 
-            if (command != "")
-            {
-                QString commandStr = QString::fromStdString(command);
-
-                if (commandStr.size() > 0 && commandStr.at(0) != '.')
-                    commandStr.prepend('.');
-
-                Chat::Instance()->ParseCommand(commandStr);
-            }
-        }
-    }
 };
 
 #endif

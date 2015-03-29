@@ -13,20 +13,23 @@ typedef QList<WorldSession*> SessionList;
 
 class World : public Singleton<World>
 {
+    Q_OBJECT
+
 public:
     World();
     ~World();
 
     bool Initialize();
-    bool IsRunning() { return m_running; }
 
     void AddSession(WorldSession* session);
     void RemoveSession(WorldSession* session);
 
     void Update(quint64 diff);
 
+signals:
+   void stopped();
+
 private:
-    bool m_running;
     SessionList m_sessions;
 };
 

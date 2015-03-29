@@ -3,7 +3,7 @@
 #include "Cryptography/CryptographyMgr.h"
 #include "Game/Server/WorldSession.h"
 #include "Game/World/World.h"
-#include "Game/World/WorldRunnable.h"
+#include "Game/World/WorldLoop.h"
 
 template<> WorldServer*  Singleton<WorldServer>::m_instance = 0;
 
@@ -15,6 +15,7 @@ WorldServer::WorldServer()
 WorldServer::~WorldServer()
 {
     Log::Write(LOG_TYPE_NORMAL, "Stopping Worldserver...");
+    emit stopped();
 
     World::Delete();
     ConfigMgr::Delete();

@@ -8,7 +8,6 @@ template<> World*  Singleton<World>::m_instance = 0;
 
 World::World()
 {
-    m_running = true;
 }
 
 World::~World()
@@ -23,7 +22,8 @@ World::~World()
         m_sessions.erase(itr);
     }
 
-    m_running = false;
+    Log::Write(LOG_TYPE_INFO, "World Stopped");
+    emit stopped();
 }
 
 bool World::Initialize()

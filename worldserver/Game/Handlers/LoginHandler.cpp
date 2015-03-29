@@ -130,7 +130,8 @@ void WorldSession::HandleAuthTokenRequest(WorldPacket& packet)
 
     // Hardcoded token for now
     QString token = "74aed5af0c8551977d418cee34fa394bfd398565ba7b018d74c59999449ca";
-    qDebug() << "Received token : " << token;
+
+    Log::Write(LOG_TYPE_INFO, "Received token : %s", token.toLatin1().data());
 
     WorldPacket data(MSG_AUTH_TOKEN);
     data.WriteString(token, STRING_SIZE_4);

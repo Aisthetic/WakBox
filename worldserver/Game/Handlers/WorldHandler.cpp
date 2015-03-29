@@ -4,7 +4,6 @@ void WorldSession::SendWorldSelectResult(bool result)
 {
     WorldPacket data(SMSG_WORLD_SELECT_RESULT);
     data << (quint8) !result;
-    qDebug() << "WORLD SELECT result : " << (quint8) !result;
     SendPacket(data);
 }
 
