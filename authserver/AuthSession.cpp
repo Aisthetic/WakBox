@@ -234,6 +234,48 @@ void AuthSession::HandleRealmsRequest(WorldPacket& /*packet*/)
     QSqlQuery result = sAuthDatabase->Query(SELECT_REALMS);
 
     WorldPacket data(SMSG_REALMS_LIST);
+
+    //@TODO
+    //Realms packet
+    //The packets from the list of realms is in two pieces.
+    //The first "proxy" will list the realms
+    //The second "worldinfo" store configuration of each realmd
+
+    //First part struct
+
+    //nb of realmd [int]
+    //loop nb of realmd
+    //  realmd id [int]
+    //  name length [int]
+    //  name [string]
+    //  community id [int]
+    //  adresse length [int]
+    //  adresse [string]
+    //  port count [int]
+    //  loop port count
+    //      port [int]
+    //  endloop
+    //  order [int]
+
+    //Second part struct
+
+    //nb of realmd config
+    //loop nb of realmd config
+    //  realmd id [int]
+    //  version supported length [int]
+    //  version [byte - int8 - int16 - int8]
+    //  dispatchData length [int]
+    //  dispatchData
+    //      nb of properties [int]
+    //      loop nb of properties
+    //          id config [short]
+    //          size of the config str [int]
+    //          config str [string]
+    //  playerCount [int]
+    //  playerLimit [int]
+    //  locked [bool]
+
+
     Packet data2;
 
     data << result.size();
@@ -254,7 +296,6 @@ void AuthSession::HandleRealmsRequest(WorldPacket& /*packet*/)
         data << (quint8) realmId;
 
         // Next part
-
         data2 << realmId;
         data2.StartBlock<int>();
         {
@@ -273,8 +314,11 @@ void AuthSession::HandleRealmsRequest(WorldPacket& /*packet*/)
         }
         data2.EndBlock<int>();
 
+
         data2.StartBlock<int>();
         {
+
+
             /* Config example
             COMMUNITY_CHECK_ENABLE 208 : "true"
             COMMUNITY_REQUIRED 209 : 0
