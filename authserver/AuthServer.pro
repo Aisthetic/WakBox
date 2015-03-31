@@ -115,3 +115,5 @@ SOURCES += main.cpp \
 HEADERS += AuthServer.h \
     AuthSession.h \
     AuthMain.h
+
+include(Realm/Realm.pri)

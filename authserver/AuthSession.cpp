@@ -231,7 +231,7 @@ void AuthSession::SendLoginErrorResult(LoginResult result)
 
 void AuthSession::HandleRealmsRequest(WorldPacket& /*packet*/)
 {
-    QSqlQuery result = sAuthDatabase->Query(SELECT_REALMS);
+    QSqlQuery result = sAuthDatabase->Query(SELECT_REALMS); //@NOT a good way - every time someone logged we need to reload the realm
 
     WorldPacket data(SMSG_REALMS_LIST);
 
