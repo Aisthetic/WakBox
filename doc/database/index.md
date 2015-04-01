@@ -12,11 +12,6 @@
 
 ## Index
 
-### World Databases
-
-+  [`wakbox_creature_template`]  (https://github.com/KevinSupertramp/WakBox/blob/master/doc/database/world/creature_template.md)
-+  [`wakbox_interactive_element`] (https://github.com/KevinSupertramp/WakBox/blob/master/doc/database/world/interactive_element.md)
-
 ### Auth Databases
 
 + [`wakbox_account`]  (https://github.com/KevinSupertramp/WakBox/blob/master/doc/database/auth/account.md)
@@ -29,3 +24,9 @@
 ### Char Databases
 
 + [`wakbox_character`]  (https://github.com/KevinSupertramp/WakBox/blob/master/doc/database/auth/character.md)
+
+
+### World Databases
+
++  [`wakbox_creature_template`]  (https://github.com/KevinSupertramp/WakBox/blob/master/doc/database/world/creature_template.md)
++  [`wakbox_interactive_element`] (https://github.com/KevinSupertramp/WakBox/blob/master/doc/database/world/interactive_element.md)
