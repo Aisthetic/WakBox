@@ -3,6 +3,7 @@
 #include "Databases/Database.h"
 #include "Console/ConsoleAppender.h"
 #include "Logs/Log.h"
+#include "Realm/RealmMgr.h"
 
 template<> AuthServer*  Singleton<AuthServer>::m_instance = 0;
 
@@ -49,6 +50,7 @@ bool AuthServer::Initialize()
         return false;
 
     AuthTable::InitHandlers();
+    sRealmMgr->LoadRealmList();
 
     if(!Start(QHostAddress::LocalHost, quint16(sAuthConfig->GetInt("AuthServerPort"))))
     {

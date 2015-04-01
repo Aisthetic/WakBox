@@ -3,27 +3,14 @@
 
 #include <QObject>
 #include <QHostAddress>
+#include <QSqlQuery>
 
-class RealmCommunity
+#include "Define.h"
+
+struct RealmCommunity
 {
-private:
-    qint32 m_id;
-    QString m_name;
-
-    RealmCommunity(qint32 id, QString name)
-    {
-        m_id = id;
-        m_name = name;
-    }
-
- public:
-    static RealmCommunity* byId(qint32 id)
-    {
-        switch(id)
-        {
-            case 1: return new RealmCommunity(1, "fr");
-        }
-    }
+    CommunityId id;
+    QString name;
 };
 
 class Realm : public QObject
@@ -34,17 +21,28 @@ public:
      explicit Realm(QObject *parent = 0);
     ~Realm();
 
-private :
-    qint32 m_id;
-    QString m_name;
-    QHostAddress m_adress;
-    QList<qint16> m_port;
-    QString m_version;
-    RealmCommunity* m_community;
-    qint32 getPlayerCount() { return 0; }
-    qint32 m_playerLimit;
+    void LoadFromDB(QSqlQuery query);
 
-    bool locked;
+    quint32 GetId() { return m_id; }
+    QString GetName() { return m_name; }
+    QHostAddress GetHostAddress() { return m_address; }
+    quint32 GetPort() { return m_port; }
+    QString GetVersion() { return m_version; }
+    RealmCommunity GetCommunity() { return m_community; }
+    quint32 GetPlayerCount() { return m_playerCount; }
+    quint32 GetPlayerLimit() { return m_playerLimit; }
+    bool IsLocked() { return m_locked; }
+
+private :
+    quint32 m_id;
+    QString m_name;
+    QHostAddress m_address;
+    quint32 m_port;
+    QString m_version;
+    RealmCommunity m_community;
+    quint32 m_playerCount;
+    quint32 m_playerLimit;
+    bool m_locked;
 };
 
 #endif // REALM_H

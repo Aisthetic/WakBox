@@ -16,7 +16,7 @@ enum StringSize
     STRING_SIZE_4 = 2
 };
 
-enum Community
+enum CommunityId
 {
     COMMUNITY_FR    = 0,
     COMMUNITY_UK    = 1,
