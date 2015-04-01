@@ -4,7 +4,6 @@
 
 ### `realm_id`
 + type : `int`
-+ comment : reference of table [realm] (https://github.com/KevinSupertramp/WakBox/blob/master/doc/realm/realm.md)
 
 ### `name` 
 + type : `varchar(32)`
