@@ -25,7 +25,7 @@ public:
 
     quint32 GetId() { return m_id; }
     QString GetName() { return m_name; }
-    QHostAddress GetHostAddress() { return m_address; }
+    QString GetHostAddress() { return m_address; }
     quint32 GetPort() { return m_port; }
     QString GetVersion() { return m_version; }
     RealmCommunity GetCommunity() { return m_community; }
@@ -36,7 +36,7 @@ public:
 private :
     quint32 m_id;
     QString m_name;
-    QHostAddress m_address;
+    QString m_address;
     quint32 m_port;
     QString m_version;
     RealmCommunity m_community;

@@ -42,8 +42,6 @@ bool WorldServer::Initialize()
                 sWorldConfig->GetUShort("LogFileLevel"),
                 sWorldConfig->GetIntList("ConsoleColor"));
 
-    Log::Write(LOG_TYPE_NORMAL, "Starting WorldServer...");
-
     if (!sDatabase->OpenAuthDatabase(sAuthConfig->GetString("AuthDatabase")))
         return false;
 
@@ -64,13 +62,13 @@ bool WorldServer::Initialize()
         return false;
     }
 
-    if(!Start(QHostAddress::LocalHost, quint16(sWorldConfig->GetInt("WorldServerPort"))))
+    if (!Start(QHostAddress::LocalHost, quint16(sWorldConfig->GetInt("WorldServerPort"))))
     {
         Log::Write(LOG_TYPE_NORMAL, m_server->errorString().toLatin1().data());
         return false;
     }
     else
-       Log::Write(LOG_TYPE_NORMAL, "Worldserver started on port %i : waiting for connections", sWorldConfig->GetInt("WorldServerPort"));
+       Log::Write(LOG_TYPE_NORMAL, "Worldserver started on port %i : waiting for connections.", sWorldConfig->GetInt("WorldServerPort"));
 
     Chat::Instance();
     return true;

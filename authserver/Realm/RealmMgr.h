@@ -21,7 +21,7 @@ public:
         return m_communities.value(id);
     }
 
-    void ToRealmPacket(WorldPacket& data);
+    void ToRealmPacket(WorldPacket& data, Packet& data2);
 
 private:
     RealmCommunityMap m_communities;

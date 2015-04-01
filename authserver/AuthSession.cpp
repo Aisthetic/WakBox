@@ -4,6 +4,7 @@
 #include "Logs/Log.h"
 #include "Configuration/ConfigMgr.h"
 #include "Cryptography/CryptographyMgr.h"
+#include "Realm/RealmMgr.h"
 
 AuthHandlerMap  AuthTable::authHandlers;
 
@@ -231,91 +232,10 @@ void AuthSession::SendLoginErrorResult(LoginResult result)
 
 void AuthSession::HandleRealmsRequest(WorldPacket& /*packet*/)
 {
-    QSqlQuery result = sAuthDatabase->Query(SELECT_REALMS); //@NOT a good way - every time someone logged we need to reload the realm
-
     WorldPacket data(SMSG_REALMS_LIST);
     Packet data2;
 
-    //@TODO
-    //Get each realms from RealmMgr.
-    //The current struct is correct.
-
-    // Number of realms
-    data << result.size();
-
-    while (result.next())
-    {
-        // ===
-        // = Part 1 : Proxy Info
-        // ===
-
-        int realmId = result.value("realm_id").toInt();
-
-        data << realmId;
-        data.WriteString(result.value("name").toString(), STRING_SIZE_4);
-
-        data << result.value("community").toInt();
-        data.WriteString(result.value("address").toString(), STRING_SIZE_4);
-
-        // Port count (loop)
-        data << (int) 1;
-        data << result.value("port").toInt();
-
-        // Order
-        data << (quint8) realmId;
-
-        // ===
-        // = Part 2 : World Info
-        // ===
-
-        data2 << realmId;
-
-        // World version
-        data2.StartBlock<int>();
-        {
-            QStringList version = result.value("version").toString().split(".");
-
-            if(version.length() < 3)
-            {
-                Log::Write(LOG_TYPE_ERROR, "Invalid version pattern (x.x.x) for realmd %s", result.value("name").toString().toLatin1().data());
-                exit(0);
-            }
-
-            data2 << (quint8)  version.at(0).toUShort();
-            data2 << (quint16) version.at(1).toUShort();
-            data2 << (quint8)  version.at(2).toUShort();
-            data2.WriteString("-1");
-        }
-        data2.EndBlock<int>();
-
-        // World configuration
-        data2.StartBlock<int>();
-        {
-            /* Config example
-            COMMUNITY_CHECK_ENABLE 208 : "true"
-            COMMUNITY_REQUIRED 209 : 0
-            COMMUNITY_FORBIDDEN 210 : ""
-            AUTHORIZED_PARTNERS 220 : "default"
-            SERVER_ID 420 : 1
-            */
-
-            // Nb of properties (loop)
-            data2 << (int) 0;
-
-            // Short config key
-            // Int config string length
-            // String config value
-        }
-        data2.EndBlock<int>();
-
-        data2 << result.value("player_count").toInt();
-        data2 << result.value("player_limit").toInt();
-        data2 << (quint8) result.value("locked").toBool();
-    }
-
-    data << result.size();
-
-    // Append part 2 to part 1
+    sRealmMgr->ToRealmPacket(data, data2);
     data.Append(data2);
 
     SendPacket(data);

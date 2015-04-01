@@ -41,7 +41,6 @@ bool AuthServer::Initialize()
         return false;
 
     Log::Instance()->Initialize(sAuthConfig->GetUShort("LogConsoleLevel"), sAuthConfig->GetString("LogFile"), sAuthConfig->GetUShort("LogFileLevel"), sAuthConfig->GetIntList("ConsoleColor"));
-    Log::Write(LOG_TYPE_NORMAL, "Starting AuthServer...");
 
     if (!sDatabase->OpenAuthDatabase(sAuthConfig->GetString("AuthDatabase")))
         return false;
@@ -52,20 +51,20 @@ bool AuthServer::Initialize()
     AuthTable::InitHandlers();
     sRealmMgr->LoadRealmList();
 
-    if(!Start(QHostAddress::LocalHost, quint16(sAuthConfig->GetInt("AuthServerPort"))))
+    if (!Start(QHostAddress::LocalHost, quint16(sAuthConfig->GetInt("AuthServerPort"))))
     {
         Log::Write(LOG_TYPE_ERROR, m_server->errorString().toLatin1().data());
         return false;
     }
     else
-       Log::Write(LOG_TYPE_NORMAL, "AuthServer started on port %i : waiting for connections", sAuthConfig->GetInt("AuthServerPort"));
+       Log::Write(LOG_TYPE_NORMAL, "AuthServer started on port %i : waiting for connections.", sAuthConfig->GetInt("AuthServerPort"));
 
     return true;
 }
 
 bool AuthServer::Start(QHostAddress address, quint16 port)
 {
-    if(!m_server->listen(address, port))
+    if (!m_server->listen(address, port))
         return false;
 
     connect(m_server, SIGNAL(newConnection()), this, SLOT(OnConnect()));

@@ -17,18 +17,21 @@ Log::Log()
 
 Log::~Log()
 {
-    if(m_file) m_file->close(); //close the file
+    if (m_file)
+        m_file->close();
 }
 
 void Log::Initialize(ushort logConsoleLevel, QString logFile, ushort logFileLevel, QList<int> colors)
 {
-    m_logTypeConsole = LogType(logConsoleLevel);
-    m_logTypeFile = LogType(logFileLevel);
+    m_logTypeConsole = (LogType) logConsoleLevel;
+    m_logTypeFile = (LogType) logFileLevel;
 
-    for(int i =0; i < colors.count(); i++)
+    for (int i = 0; i < colors.count(); ++i)
     {
-        if(i > LOG_TYPE_MAX) break;
-        m_logConsoleColor[(LogType)i] = (ConsoleAppender::eColor)colors.at(i);
+        if (i > LOG_TYPE_MAX)
+            break;
+
+        m_logConsoleColor[(LogType) i] = (ConsoleAppender::eColor) colors.at(i);
     }
 
     OpenFile(logFile);
@@ -37,7 +40,7 @@ void Log::Initialize(ushort logConsoleLevel, QString logFile, ushort logFileLeve
 void Log::OpenFile(QString fileName)
 {
     m_file = new QFile(fileName, this);
-    if(m_file->open(QIODevice::WriteOnly | QIODevice::Text))
+    if (m_file->open(QIODevice::WriteOnly | QIODevice::Text))
         return;
 
     QString error = m_file->errorString();
@@ -68,7 +71,7 @@ void Log::WriteLog(LogType logType, QString logMessage)
     if (logType <= m_logTypeConsole)
          ConsoleAppender::WriteLine(m_logConsoleColor[logType], logMessage);
 
-    if(m_file && logType <= m_logTypeFile)
+    if (m_file && logType <= m_logTypeFile)
     {
         m_file->write(logMessage.toUtf8() + "\n");
         m_file->flush();
