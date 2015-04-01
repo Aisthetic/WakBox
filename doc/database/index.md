@@ -4,7 +4,7 @@
 
 + Table name is **singular**
 + Prefer use **one world** if is possible
-+ **Prefix table name** (actualy is wakbox_#tablename)
++ **Prefix table name ** (actualy is disabled..)
 + **Don't prefix your column name by your table name**
 +  Prefix column by table name if it's a reference
 + use **snake case** (`like_this`)
