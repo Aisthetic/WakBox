@@ -73,7 +73,7 @@ void RealmMgr::ToRealmPacket(WorldPacket& data, Packet& data2)
         // = Part 2 : World Info
         // ===
 
-        data << realm->GetId();
+        data2 << realm->GetId();
 
         // World version
         data2.StartBlock<int>();
