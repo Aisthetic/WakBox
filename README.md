@@ -6,6 +6,10 @@ Wakfu sandbox written in C++/Qt
 
 **Special Thanks : Boredom, Velocity, scalexm, nightwolf93, Smarken, Crystal**
 
+## Documentation
+
++ [Databases] (https://github.com/KevinSupertramp/WakBox/blob/master/doc/database/index.md)
+
 ## Precompiled Cryptopp Library
 
 You should extract Cryptopp library for your compilator.
@@ -58,7 +62,7 @@ When you have this kind of error : "QMYSQL driver not loaded", you should compil
 
 + Just following the [QT 5 Documentation for SQL Driver](http://doc.qt.io/qt-5/sql-driver.html)
 
-## Help link : 
+**Help link :**
 
 [QT 5 Documentation for SQL Driver](http://doc.qt.io/qt-5/sql-driver.html)
 
