@@ -18,7 +18,7 @@
 + [`ip_banned`]  (https://github.com/KevinSupertramp/WakBox/blob/master/doc/database/auth/ip_banned.md)
 + [`realm`]  (https://github.com/KevinSupertramp/WakBox/blob/master/doc/database/auth/realm.md)
 + [`realm_character`] (https://github.com/KevinSupertramp/WakBox/blob/master/doc/database/auth/realm_character.md) *useless ?*
-+ [`wrealm_info`] (https://github.com/KevinSupertramp/WakBox/blob/master/doc/database/auth/realm_info.md)
++ [`realm_info`] (https://github.com/KevinSupertramp/WakBox/blob/master/doc/database/auth/realm_info.md)
 
 
 ### Char Databases

@@ -43,10 +43,10 @@ void RealmMgr::LoadRealmList()
     }
 }
 
-void RealmMgr::ToRealmPacket(WorldPacket& data, Packet& data2)
+void RealmMgr::ToRealmPacket(WorldPacket& dataProxy, Packet& dataInfo)
 {
     int realmCount = m_realms.size();
-    data << realmCount;
+    dataProxy << realmCount;
 
     for (RealmsList::ConstIterator itr = m_realms.begin(); itr != m_realms.end(); ++itr)
     {
@@ -56,39 +56,39 @@ void RealmMgr::ToRealmPacket(WorldPacket& data, Packet& data2)
         // = Part 1 : Proxy Info
         // ===
 
-        data << realm->GetId();
-        data.WriteString(realm->GetName(), STRING_SIZE_4);
+        dataProxy << realm->GetId();
+        dataProxy.WriteString(realm->GetName(), STRING_SIZE_4);
 
-        data << (quint32) realm->GetCommunity().id;
+        dataProxy << (quint32) realm->GetCommunity().id;
         data.WriteString(realm->GetHostAddress(), STRING_SIZE_4);
 
         // Port count (loop)
-        data << (int) 1;
-        data << realm->GetPort();
+        dataProxy << (int) 1;
+        dataProxy << realm->GetPort();
 
         // Order
-        data << (quint8) realm->GetId();
+        dataProxy << (quint8) realm->GetId();
 
         // ===
         // = Part 2 : World Info
         // ===
 
-        data2 << realm->GetId();
+        dataInfo << realm->GetId();
 
         // World version
-        data2.StartBlock<int>();
+        dataInfo.StartBlock<int>();
         {
             QStringList version = realm->GetVersion().split(".");
 
-            data2 << (quint8)  version.at(0).toUShort();
-            data2 << (quint16) version.at(1).toUShort();
-            data2 << (quint8)  version.at(2).toUShort();
-            data2.WriteString("-1");
+            dataInfo << (quint8)  version.at(0).toUShort();
+            dataInfo << (quint16) version.at(1).toUShort();
+            dataInfo << (quint8)  version.at(2).toUShort();
+            dataInfo.WriteString("-1");
         }
-        data2.EndBlock<int>();
+        dataInfo.EndBlock<int>();
 
         // World configuration
-        data2.StartBlock<int>();
+        dataInfo.StartBlock<int>();
         {
             /* Config example
             COMMUNITY_CHECK_ENABLE 208 : "true"
@@ -99,19 +99,19 @@ void RealmMgr::ToRealmPacket(WorldPacket& data, Packet& data2)
             */
 
             // Nb of properties (loop)
-            data2 << (int) 0;
+            dataInfo << (int) 0;
 
             // Short config key
             // Int config string length
             // String config value
         }
-        data2.EndBlock<int>();
+        dataInfo.EndBlock<int>();
 
-        data2 << realm->GetPlayerCount();
-        data2 << realm->GetPlayerLimit();
-        data2 << realm->IsLocked();
+        dataInfo << realm->GetPlayerCount();
+        dataInfo << realm->GetPlayerLimit();
+        dataInfo << realm->IsLocked();
     }
 
-    data << realmCount;
+    dataProxy << realmCount;
 }
 

@@ -8,6 +8,7 @@ Wakfu sandbox written in C++/Qt
 
 ## Documentation
 
++ [Core] (https://github.com/KevinSupertramp/WakBox/blob/master/doc/core/index.md)
 + [Databases] (https://github.com/KevinSupertramp/WakBox/blob/master/doc/database/index.md)
 
 ## Precompiled Cryptopp Library

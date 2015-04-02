@@ -2,7 +2,7 @@
 
 ## Columns
 
-### `realm_id`
+### `id`
 + type : `int`
 
 ### `name` 
