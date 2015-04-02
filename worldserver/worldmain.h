@@ -5,7 +5,7 @@
 #include "WorldMain.h"
 #include "Logs/Log.h"
 #include "Define.h"
-#include "Chat/CommandLine.h"
+#include "World/WorldCommandLine.h"
 #include "World/WorldLoop.h"
 
 class WorldMain : public ConsoleApp
@@ -24,7 +24,7 @@ private :
     QThread* m_threadCommandLine;
     QThread* m_threadWorldLoop;
 
-    CommandLine* m_commandLine;
+    WorldCommandLine* m_commandLine;
     WorldLoop* m_worldLoop;
 };
 

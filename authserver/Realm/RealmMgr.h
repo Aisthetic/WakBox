@@ -5,7 +5,7 @@
 #include "Packets/WorldPacket.h"
 #include "Realm.h"
 
-typedef QMap<CommunityId, QString> RealmCommunityMap;
+typedef QMap<CommunityId, RealmCommunity> RealmCommunityMap;
 typedef QList<Realm*> RealmsList;
 
 class RealmMgr : public Singleton<RealmMgr>
@@ -15,17 +15,15 @@ public:
     ~RealmMgr();
 
     void LoadRealmList();
-
-    QString GetCommunityNameById(CommunityId id)
-    {
-        return m_communities.value(id);
-    }
+    RealmCommunity GetCommunityById(CommunityId id);
 
     void ToRealmPacket(WorldPacket& data, Packet& data2);
 
 private:
     RealmCommunityMap m_communities;
     RealmsList m_realms;
+
+    void LoadFromDB(QSqlQuery query);
 };
 
 #define sRealmMgr RealmMgr::Instance()

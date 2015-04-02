@@ -31,7 +31,7 @@ bool MysqlConnection::Open(bool loadQueries)
     if (loadQueries)
         LoadQueries();
 
-    Log::Write(LOG_TYPE_NORMAL, "Database connection accomplished on %s.", m_connectionInfo.database.toLatin1().data());
+    Log::Write(LOG_TYPE_INFO, "Database connection accomplished on %s.", m_connectionInfo.database.toLatin1().data());
     return true;
 }
 

@@ -24,6 +24,6 @@ void WorldLoop::run()
             previousSleepTime = 0;
     }
 
-    Log::Write(LOG_TYPE_INFO, "WorldLoop stopped");
+    Log::Write(LOG_TYPE_DEBUG, "WorldLoop stopped");
     emit finished();
 }

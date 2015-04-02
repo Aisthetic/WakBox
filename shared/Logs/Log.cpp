@@ -55,11 +55,11 @@ QString Log::GetLogTypeString(LogType logType)
     switch(logType)
     {
     case LOG_TYPE_INFO:
-        return "[Info] ";
+        return "<Info>";
     case LOG_TYPE_DEBUG:
-        return "[Debug] ";
+        return "<Debug>";
     case LOG_TYPE_ERROR:
-        return "[Error] ";
+        return "<Error>";
     case LOG_TYPE_NORMAL:
     default:
         return "";

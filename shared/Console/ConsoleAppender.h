@@ -46,7 +46,7 @@ public:
      * @param message
      */
     static void Write(eColor color, QString message);
-    static void WriteLine(eColor color, QString message) { Write(color, message.prepend('\n')); }
+    static void WriteLine(eColor color, QString message) { Write(color, message.prepend("\n")); }
 };
 
 #endif // CONSOLEAPPENDER_H

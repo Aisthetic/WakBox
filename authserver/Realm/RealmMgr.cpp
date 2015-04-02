@@ -5,20 +5,21 @@ template<> RealmMgr*  Singleton<RealmMgr>::m_instance = 0;
 
 RealmMgr::RealmMgr()
 {
-    m_communities[COMMUNITY_FR]     = "fr";
-    m_communities[COMMUNITY_UK]     = "uk";
-    m_communities[COMMUNITY_INT]    = "en";
-    m_communities[COMMUNITY_DE]     = "de";
-    m_communities[COMMUNITY_ES]     = "es";
-    m_communities[COMMUNITY_RU]     = "ru";
-    m_communities[COMMUNITY_PT]     = "pt";
-    m_communities[COMMUNITY_NL]     = "nl";
-    m_communities[COMMUNITY_JP]     = "jp";
-    m_communities[COMMUNITY_IT]     = "it";
-    m_communities[COMMUNITY_NA]     = "na";
-    m_communities[COMMUNITY_CN]     = "cn";
-    m_communities[COMMUNITY_ASIA]   = "asia";
-    m_communities[COMMUNITY_TW]     = "tw";
+    m_communities.clear();
+    m_communities[COMMUNITY_FR]     = RealmCommunity(COMMUNITY_FR, "fr");
+    m_communities[COMMUNITY_UK]     = RealmCommunity(COMMUNITY_UK, "uk");
+    m_communities[COMMUNITY_INT]    = RealmCommunity(COMMUNITY_INT, "en");
+    m_communities[COMMUNITY_DE]     = RealmCommunity(COMMUNITY_DE, "de");
+    m_communities[COMMUNITY_ES]     = RealmCommunity(COMMUNITY_ES, "es");
+    m_communities[COMMUNITY_RU]     = RealmCommunity(COMMUNITY_RU, "ru");
+    m_communities[COMMUNITY_PT]     = RealmCommunity(COMMUNITY_PT, "pt");
+    m_communities[COMMUNITY_NL]     = RealmCommunity(COMMUNITY_NL, "nl");
+    m_communities[COMMUNITY_JP]     = RealmCommunity(COMMUNITY_JP, "jp");
+    m_communities[COMMUNITY_IT]     = RealmCommunity(COMMUNITY_IT, "it");
+    m_communities[COMMUNITY_NA]     = RealmCommunity(COMMUNITY_NA, "na");
+    m_communities[COMMUNITY_CN]     = RealmCommunity(COMMUNITY_CN, "cn");
+    m_communities[COMMUNITY_ASIA]   = RealmCommunity(COMMUNITY_ASIA, "asia");
+    m_communities[COMMUNITY_TW]     = RealmCommunity(COMMUNITY_TW, "tw");
 
     m_realms.clear();
 }
@@ -26,7 +27,6 @@ RealmMgr::RealmMgr()
 RealmMgr::~RealmMgr()
 {
     m_communities.clear();
-
     qDeleteAll(m_realms);
     m_realms.clear();
 }
@@ -34,13 +34,34 @@ RealmMgr::~RealmMgr()
 void RealmMgr::LoadRealmList()
 {
     QSqlQuery result = sAuthDatabase->Query(SELECT_REALMS);
+
     while (result.next())
     {
-        Realm* realm = new Realm();
-        realm->LoadFromDB(result);
+        QString version = result.value("version").toString();
+        qint32 id = (quint32) result.value("realm_id").toInt();
+        QString name  = result.value("name").toString();
+        QString address = result.value("address").toString();
+        qint32 port  = (quint32) result.value("port").toInt();
+        quint32 playerLimit  = (quint32) result.value("player_limit").toInt();
+        bool locked = result.value("locked").toBool();
+        CommunityId communityId = (CommunityId) result.value("community").toInt();
+
+        Realm* realm = new Realm(id);
+        realm->SetVersion(version);
+        realm->SetName(name);
+        realm->SetHostAddress(address);
+        realm->SetPort(port);
+        realm->SetPlayerLimit(playerLimit);
+        realm->Lock(locked);
+        realm->SetCommunity(this->GetCommunityById(communityId));
 
         m_realms.push_back(realm);
     }
+}
+
+RealmCommunity RealmMgr::GetCommunityById(CommunityId id)
+{
+    return m_communities.value(id);
 }
 
 void RealmMgr::ToRealmPacket(WorldPacket& dataProxy, Packet& dataInfo)
@@ -52,15 +73,15 @@ void RealmMgr::ToRealmPacket(WorldPacket& dataProxy, Packet& dataInfo)
     {
         Realm* realm = (*itr);
 
-        // ===
-        // = Part 1 : Proxy Info
-        // ===
+        // ===================
+        // Part 1 : Proxy Info
+        // ===================
 
         dataProxy << realm->GetId();
         dataProxy.WriteString(realm->GetName(), STRING_SIZE_4);
 
         dataProxy << (quint32) realm->GetCommunity().id;
-        data.WriteString(realm->GetHostAddress(), STRING_SIZE_4);
+        dataProxy.WriteString(realm->GetHostAddress(), STRING_SIZE_4);
 
         // Port count (loop)
         dataProxy << (int) 1;
@@ -69,9 +90,9 @@ void RealmMgr::ToRealmPacket(WorldPacket& dataProxy, Packet& dataInfo)
         // Order
         dataProxy << (quint8) realm->GetId();
 
-        // ===
-        // = Part 2 : World Info
-        // ===
+        // =====================
+        // Part 2 : World Info
+        // =====================
 
         dataInfo << realm->GetId();
 

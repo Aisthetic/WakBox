@@ -110,10 +110,12 @@ INCLUDEPATH += $$PWD
 SOURCES += main.cpp \
     AuthServer.cpp \
     AuthSession.cpp \
-    AuthMain.cpp
+    AuthMain.cpp \
+    AuthCommandLine.cpp
 
 HEADERS += AuthServer.h \
     AuthSession.h \
-    AuthMain.h
+    AuthMain.h \
+    AuthCommandLine.h
 
 include(Realm/Realm.pri)

@@ -2,12 +2,15 @@
 
 void WorldMain::run()
 {
+    QTime t;
+    t.start();
+
     //=================
     //Command line init
     //=================
 
     m_threadCommandLine = new QThread();
-    m_commandLine = new CommandLine();
+    m_commandLine = new WorldCommandLine("World>");
     m_commandLine->moveToThread(m_threadCommandLine);
 
     connect(m_threadCommandLine, SIGNAL(started()), m_commandLine, SLOT(run()));
@@ -29,9 +32,6 @@ void WorldMain::run()
     //===========
     //World start
     //===========
-
-    QTime t;
-    t.start();
 
     Log::Write(LOG_TYPE_NORMAL, "WW       WW         kk     BBBBB                 ");
     Log::Write(LOG_TYPE_NORMAL, "WW       WW   aa aa kk  kk BB   B   oooo  xx  xx ");
@@ -55,9 +55,9 @@ void WorldMain::run()
 void WorldMain::stop()
 {
     m_commandLine->stop();
-    m_worldLoop->stop();
-
     delete m_commandLine;
+
+    m_worldLoop->stop();
     delete m_worldLoop;
 
     sWorldServer->Delete();

@@ -1,5 +1,10 @@
 #include "CommandLine.h"
 
+CommandLine::CommandLine(QString title, QObject *parent) : QObject(parent)
+{
+    m_stop = false;
+    m_title = title;
+}
 
 void CommandLine::run()
 {
@@ -8,7 +13,7 @@ void CommandLine::run()
         if(m_stop)
             break;
 
-        ConsoleAppender::WriteLine(ConsoleAppender::eColor::LIGHTCYAN, "Wakbox>");
+        ConsoleAppender::WriteLine(ConsoleAppender::eColor::LIGHTCYAN, m_title);
 
         std::string command_str;
         std::getline(std::cin, command_str);
@@ -21,9 +26,9 @@ void CommandLine::run()
         command.replace('\r', "");
 
         fflush(stdout);
-        Chat::Instance()->ParseCommand(command);
+        HandleCommand(command);
     }
 
-    Log::Write(LOG_TYPE_INFO, "Command line stopped");
+    Log::Write(LOG_TYPE_DEBUG, "CommandLine %s stopped", m_title.toLatin1().data());
     emit finished();
 }
