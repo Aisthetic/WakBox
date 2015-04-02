@@ -2,10 +2,9 @@
 
 # Naming Convention
 
-+ Singleton variable start by `s` *like sWorld*
++ Singleton variable start by `s` **like sWorld**
 + Always set attribute in private and starting by `m_`
 + Manager class end by `Mgr`
-
 + Create getter and setter for read and modify attribute
 + Always manipulate object, don't work with raw data
 + Don't forget to delete all pointer not used anymore
@@ -22,13 +21,12 @@ In agreement with the *Layered model* (we don't have a DAL - all is in Manager),
 + Manager provide raw data managing - SQL , JSON and another raw format
 + Object provide Work Logic
 
-+*DON'T*
-    + *SQL Request* in Object - Manager handle request
-    + *toSometing()* in Object - Manager handle raw data 
-    + *getObjectRelation()* in Object - Call the Relation Object Method Example : (Find all Characters for an Account) AccountMgr->getCharacters(Account* Account)
++ **DON'T**
+  + **SQL Request** in Object - Manager handle request
+  + **toSometing()** in Object - Manager handle raw data 
+  + **getObjectRelation()** in Object - Call the Relation Object Method Example : (Find all Characters for an Account) AccountMgr->getCharacters(Account* Account)
     
-+*Why you should do that ?*
-    + Change became easier
-    + Code portabilty, Object can be copy/paste in another project
-    + MgrClass can be modify easier
-        
++ **Why you should do that ?**
+  + Change became easier
+  + Code portabilty, Object can be copy/paste in another project
+  + MgrClass can be modify easier
