@@ -3,8 +3,6 @@
 
 #include <QObject>
 #include <QHostAddress>
-#include <QSqlQuery>
-
 #include "Define.h"
 
 struct RealmCommunity
@@ -32,20 +30,29 @@ public:
     quint32 GetId() { return m_id; }
     QString GetName() { return m_name; }
     QString GetHostAddress() { return m_address; }
-    quint32 GetPort() { return m_port; }
+    quint32 GetPortNo() { return m_port; }
     QString GetVersion() { return m_version; }
     RealmCommunity GetCommunity() { return m_community; }
     quint32 GetPlayerLimit() { return m_playerLimit; }
     quint32 GetPlayerCount();
-    bool IsLocked() { return m_locked; }
+    bool IsLock() { return m_locked; }
 
     void SetName(QString name) { m_name = name; }
     void SetHostAddress(QString address) { m_address = address; }
-    void SetPort(quint32 port) { m_port = port; }
+    void SetPortNo(quint32 port) { m_port = port; }
     void SetVersion(QString version);
     void SetCommunity(RealmCommunity community) { m_community = community; }
     void SetPlayerLimit(quint32 playerLimit) { m_playerLimit = playerLimit; }
     void Lock(bool locked) { m_locked = locked; }
+    
+    /*
+    void AddRealmConfiguration(RealmConfiguration);
+    void RemoveRealmConfiguration(qint32 id);
+    QList<RealmConfiguration> GetRealmConfigurationList();
+    RealmConfiguration GetRealmConfigurationById(qint32 id);
+    */
+
+    static bool CheckVersion(QString version);
 
 private :
     quint32 m_id;
@@ -56,6 +63,7 @@ private :
     RealmCommunity m_community;
     quint32 m_playerLimit;
     bool m_locked;
+    //QList<RealmConfiguration> m_configuration;
 };
 
 #endif // REALM_H

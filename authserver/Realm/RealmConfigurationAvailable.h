@@ -1,0 +1,123 @@
+#ifndef REALMCONFIGURATIONAVAILABLE_H
+#define REALMCONFIGURATIONAVAILABLE_H
+
+#include <QObject>
+#include <QHostAddress>
+#include "Define.h"
+#include "Logs/Log.h"
+
+
+enum RealmConfigurationValueType
+{
+    TYPE_BOOLEAN,
+    TYPE_NUMBER,
+    TYPE_STRING,
+    TYPE_STRINGLIST,
+    TYPE_NUMBERLIST,
+};
+
+
+enum RealmConfigurationPropertyId
+{
+    MONITORED_PROPERTIES= 1,
+    CALENDAR_DELTA= 2,
+    CALENDAR_TZ= 3,
+    CENSORSHIP_ENABLE= 4,
+    SERVER_LANGUAGE= 5,
+    CLIENT_CAN_DISABLE_PROFANITY_FILTER= 6,
+    PLAYER_LEVEL_CAP= 7,
+    AUTHORIZED_CHARACTER_CLASS= 8,
+    WORLD_INSTANCES_FORBIDDEN= 9,
+    KROSMOZ_GAMES_ENABLE= 10,
+    SHOP_INGAME_INTERACTIONS_ENABLE= 11,
+    CONTACT_MODERATOR_ENABLE= 12,
+    DISPLAY_SUBSCRIPTION_END_POPUP= 13,
+    PARTNER= 14,
+    SHOP_ENABLED= 15,
+    SOAP_AUTHENTICATION_URL= 16,
+    SOAP_ACCOUNT_URL= 17,
+    SOAP_SHOP_URL= 18,
+    METRICS_REPORTER_ENABLE= 19,
+    PLATFORM_NAME= 101,
+    PLATFORM_COMMUNITY= 102,
+    GAME_ID= 201,
+    EXPO_MODE_ENABLE= 202,
+    ADMIN_RIGHTS_FORCE_ALL= 203,
+    SERVER_LOCK_ENABLE= 204,
+    SUBSCRIPTION_REQUIRED= 206,
+    SUBSCRIPTION_FORCE= 207,
+    COMMUNITY_CHECK_ENABLE= 208,
+    COMMUNITY_REQUIRED= 209,
+    COMMUNITY_FORBIDDEN= 210,
+    ANTI_ADDICTION_ENABLE= 211,
+    ANTI_ADDICTION_FORCED_ACCOUNTS= 212,
+    SUBSCRIPTION_FORCED_DURATION_IN_SECOND= 215,
+    SUBSCRIPTION_CHECK_SERVER_LIST= 217,
+    SUBSCRIPTION_CHECK_GAME_ID= 221,
+    QUEUE_ACTIVATED= 218,
+    QUEUE_PLAYER_LIMIT= 219,
+    AUTHORIZED_PARTNERS= 220,
+    INSTANCE_STATIC_DISTRIBUTION= 301,
+    ASK_FOR_SECRET_QUESTION_ON_CHARACTER_DELETION= 302,
+    PREBOOST_CHARACTER_ENABLE= 401,
+    ACHIEVEMENTS_FORBIDDEN= 402,
+    INTERACTIVE_ELEMENTS_FORBIDDEN= 403,
+    FIGHT_CHALLENGE_ENABLE= 404,
+    DUNGEON_DAILY_LOCK_BYPASS= 405,
+    COMPANIONS_ENABLE= 406,
+    BETA_MODE= 407,
+    SUBSCRIPTION_DEFAULT_VALUE= 408,
+    SUBSCRIPTION_DATE_TIMEZONE= 409,
+    HAVEN_WORLDS_ENABLE= 410,
+    FREE_COMPANION_ENABLE= 411,
+    REROLL_XP_BONUS_ENABLE= 412,
+    SHOP_KEY= 413,
+    INSTANCES_NEEDING_ACCESS_RIGHTS= 414,
+    INSTANCES_NEEDING_INTERACTION_RIGHTS= 415,
+    COLLECT_FIGHT_ENABLED= 416,
+    FIGHT_PREMIUM_DISPLAY= 417,
+    TIMER_FOR_FIRST_COLLECT= 418,
+    FORCE_BIND_ON_PICKUP= 419,
+    SERVER_ID= 420,
+    SHOP_ENABLE_KROSZ= 421,
+    FIGHT_REWORK_ENABLED= 422,
+    ITEM_TRACKER_LOG_LEVEL= 423,
+    RECO_IN_FIGHT_ENABLED= 424,
+    NEW_HP_LOSS_FORMULA= 425,
+    STEAM_ENABLED= 426,
+    VAULT_ENABLED= 427,
+    ZAAP_FREE= 428,
+    NEW_APTITUDE_ENABLED= 429,
+    PANDA_NEW_BARREL= 430,
+    HEROES_ENABLED= 431,
+    VERSION_CHECK= 500,
+    PROXY_LIST= 600,
+    ADMIN_LIST= 601,
+    HEROES_FORCE_ADD_TO_PARTY= 602,
+};
+
+class RealmConfigurationAvailable
+{
+
+public:
+     RealmConfigurationAvailable(RealmConfigurationPropertyId id, QString key, QString defaultValue,  RealmConfigurationValueType type, bool sharedWithClient = false);
+    ~RealmConfigurationAvailable();
+    
+    RealmConfigurationPropertyId GetId() { return m_id; }
+    QString GetKey() { return m_key; }
+    QString GetDefaultValue() { return m_defaultValue; }
+    RealmConfigurationValueType GetType() { return m_type; }
+    bool IsShardWithClient() { return m_sharedWithClient; }
+
+    static bool CheckValue(RealmConfigurationValueType type, QString value);
+    bool CheckValue(QString value) { return RealmConfigurationAvailable::CheckValue(GetType(), value); }
+    
+private :
+    RealmConfigurationPropertyId m_id;
+    QString m_key;
+    QString m_defaultValue;
+    RealmConfigurationValueType m_type;
+    bool m_sharedWithClient;
+};
+
+#endif //REALMCONFIGURATIONAVAILABLE_H

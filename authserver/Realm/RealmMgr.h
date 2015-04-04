@@ -22,8 +22,6 @@ public:
 private:
     RealmCommunityMap m_communities;
     RealmsList m_realms;
-
-    void LoadFromDB(QSqlQuery query);
 };
 
 #define sRealmMgr RealmMgr::Instance()

@@ -50,7 +50,7 @@ void RealmMgr::LoadRealmList()
         realm->SetVersion(version);
         realm->SetName(name);
         realm->SetHostAddress(address);
-        realm->SetPort(port);
+        realm->SetPortNo(port);
         realm->SetPlayerLimit(playerLimit);
         realm->Lock(locked);
         realm->SetCommunity(this->GetCommunityById(communityId));
@@ -85,7 +85,7 @@ void RealmMgr::ToRealmPacket(WorldPacket& dataProxy, Packet& dataInfo)
 
         // Port count (loop)
         dataProxy << (int) 1;
-        dataProxy << realm->GetPort();
+        dataProxy << realm->GetPortNo();
 
         // Order
         dataProxy << (quint8) realm->GetId();
@@ -130,7 +130,7 @@ void RealmMgr::ToRealmPacket(WorldPacket& dataProxy, Packet& dataInfo)
 
         dataInfo << realm->GetPlayerCount();
         dataInfo << realm->GetPlayerLimit();
-        dataInfo << realm->IsLocked();
+        dataInfo << realm->IsLock();
     }
 
     dataProxy << realmCount;
