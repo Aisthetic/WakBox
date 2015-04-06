@@ -5,6 +5,8 @@
 #include <QHostAddress>
 #include "Define.h"
 
+class RealmConfiguration;
+
 struct RealmCommunity
 {
     CommunityId id;
@@ -45,12 +47,10 @@ public:
     void SetPlayerLimit(quint32 playerLimit) { m_playerLimit = playerLimit; }
     void Lock(bool locked) { m_locked = locked; }
     
-    /*
     void AddRealmConfiguration(RealmConfiguration);
     void RemoveRealmConfiguration(qint32 id);
     QList<RealmConfiguration> GetRealmConfigurationList();
     RealmConfiguration GetRealmConfigurationById(qint32 id);
-    */
 
     static bool CheckVersion(QString version);
 
