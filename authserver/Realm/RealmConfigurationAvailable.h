@@ -6,7 +6,6 @@
 #include "Define.h"
 #include "Logs/Log.h"
 
-
 enum RealmConfigurationValueType
 {
     TYPE_BOOLEAN,
@@ -15,7 +14,6 @@ enum RealmConfigurationValueType
     TYPE_STRINGLIST,
     TYPE_NUMBERLIST,
 };
-
 
 enum RealmConfigurationPropertyId
 {
@@ -99,18 +97,18 @@ enum RealmConfigurationPropertyId
 class RealmConfigurationAvailable
 {
 
-public:
-     RealmConfigurationAvailable(RealmConfigurationPropertyId id, QString key, QString defaultValue,  RealmConfigurationValueType type, bool sharedWithClient = false);
+public: 
+     RealmConfigurationAvailable(RealmConfigurationPropertyId id, QString key, QString defaultValue, RealmConfigurationValueType type, bool sharedWithClient = false);
     ~RealmConfigurationAvailable();
     
-    RealmConfigurationPropertyId GetId() { return m_id; }
-    QString GetKey() { return m_key; }
-    QString GetDefaultValue() { return m_defaultValue; }
-    RealmConfigurationValueType GetType() { return m_type; }
-    bool IsShardWithClient() { return m_sharedWithClient; }
+    RealmConfigurationPropertyId GetId();
+    QString GetKey();
+    QString GetDefaultValue();
+    RealmConfigurationValueType GetType();
+    bool IsSharedWithClient();
 
     static bool CheckValue(RealmConfigurationValueType type, QString value);
-    bool CheckValue(QString value) { return RealmConfigurationAvailable::CheckValue(GetType(), value); }
+    bool CheckValue(QString value);
     
 private :
     RealmConfigurationPropertyId m_id;

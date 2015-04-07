@@ -1,5 +1,10 @@
 #include "RealmConfigurationAvailable.h"
 
+//================
+//DE/CONSTRUCTOR
+//================
+
+
 RealmConfigurationAvailable::RealmConfigurationAvailable(RealmConfigurationPropertyId id, QString key, QString defaultValue, RealmConfigurationValueType type, bool sharedWithClient)
 {
     m_id = id;
@@ -11,8 +16,40 @@ RealmConfigurationAvailable::RealmConfigurationAvailable(RealmConfigurationPrope
 
 RealmConfigurationAvailable::~RealmConfigurationAvailable()
 {
-
 }
+
+//================
+//GETTER
+//================
+
+RealmConfigurationPropertyId RealmConfigurationAvailable::GetId()
+{
+    return m_id;
+}
+
+QString RealmConfigurationAvailable::GetKey()
+{
+    return m_key;
+}
+
+QString RealmConfigurationAvailable::GetDefaultValue()
+{
+    return m_defaultValue;
+}
+
+RealmConfigurationValueType RealmConfigurationAvailable::GetType()
+{
+    return m_type;
+}
+
+bool RealmConfigurationAvailable::IsSharedWithClient()
+{
+    return m_sharedWithClient;
+}
+
+//================
+//LOGIC
+//================
 
 bool RealmConfigurationAvailable::CheckValue(RealmConfigurationValueType type, QString value)
 {
@@ -62,4 +99,9 @@ bool RealmConfigurationAvailable::CheckValue(RealmConfigurationValueType type, Q
             break;
         }
     }
+}
+
+bool RealmConfigurationAvailable::CheckValue(QString value)
+{
+    return RealmConfigurationAvailable::CheckValue(GetType(), value);
 }

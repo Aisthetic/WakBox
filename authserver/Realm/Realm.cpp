@@ -1,6 +1,7 @@
 #include "Realm.h"
 #include "RealmMgr.h"
 #include "Logs/Log.h"
+#include "RealmConfiguration.h"
 
 Realm::Realm(qint32 id)
 {
@@ -33,6 +34,21 @@ void Realm::SetVersion(QString version)
     }
 
     m_version = version;
+}
+
+void Realm::AddConfiguration(RealmConfiguration *conf)
+{
+    m_configurations[(RealmConfigurationPropertyId)conf->GetId()] = conf;
+}
+
+void Realm::ClearConfiguration()
+{
+    m_configurations.clear();
+}
+
+RealmConfigurationMap Realm::GetConfigurations()
+{
+    return m_configurations;
 }
 
 bool Realm::CheckVersion(QString version)

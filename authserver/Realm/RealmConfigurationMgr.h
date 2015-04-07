@@ -17,7 +17,7 @@ public:
     void LoadRealmConfiguration(Realm* realmd);
     
 private:
-    RealmConfAvailableMap m_realmConfigurationAvailable;
+    RealmConfAvailableMap m_configurationAvailable;
     void InitRealmConfigurationAvailable();
     void AddConfigurationAvailable(RealmConfigurationPropertyId id, QString key, QString defaultValue, RealmConfigurationValueType type, bool sharedWithClient);
 };

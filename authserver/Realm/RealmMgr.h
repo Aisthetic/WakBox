@@ -6,7 +6,7 @@
 #include "Realm.h"
 
 typedef QMap<CommunityId, RealmCommunity> RealmCommunityMap;
-typedef QList<Realm*> RealmsList;
+typedef QList<Realm*> RealmList;
 
 class RealmMgr : public Singleton<RealmMgr>
 {
@@ -21,7 +21,7 @@ public:
 
 private:
     RealmCommunityMap m_communities;
-    RealmsList m_realms;
+    RealmList m_realms;
 };
 
 #define sRealmMgr RealmMgr::Instance()

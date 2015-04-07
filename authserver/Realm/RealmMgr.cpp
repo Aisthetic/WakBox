@@ -69,32 +69,32 @@ void RealmMgr::ToRealmPacket(WorldPacket& dataProxy, Packet& dataInfo)
     int realmCount = m_realms.size();
     dataProxy << realmCount;
 
-    for (RealmsList::ConstIterator itr = m_realms.begin(); itr != m_realms.end(); ++itr)
+    for (RealmList::ConstIterator itr = m_realms.begin(); itr != m_realms.end(); ++itr)
     {
         Realm* realm = (*itr);
 
         // ===================
-        // Part 1 : Proxy Info
+        // Part 1 : Realm Entry
         // ===================
 
-        dataProxy << realm->GetId();
-        dataProxy.WriteString(realm->GetName(), STRING_SIZE_4);
+        dataEntry << realm->GetId();
+        dataEntry.WriteString(realm->GetName(), STRING_SIZE_4);
 
-        dataProxy << (quint32) realm->GetCommunity().id;
-        dataProxy.WriteString(realm->GetHostAddress(), STRING_SIZE_4);
+        dataEntry << (quint32) realm->GetCommunity().id;
+        dataEntry.WriteString(realm->GetHostAddress(), STRING_SIZE_4);
 
         // Port count (loop)
-        dataProxy << (int) 1;
-        dataProxy << realm->GetPortNo();
+        dataEntry << (int) 1;
+        dataEntry << realm->GetPortNo();
 
         // Order
-        dataProxy << (quint8) realm->GetId();
+        dataEntry << (quint8) realm->GetId();
 
         // =====================
-        // Part 2 : World Info
+        // Part 2 : Realm Info
         // =====================
 
-        dataInfo << realm->GetId();
+        dataEntry << realm->GetId();
 
         // World version
         dataInfo.StartBlock<int>();
@@ -108,7 +108,7 @@ void RealmMgr::ToRealmPacket(WorldPacket& dataProxy, Packet& dataInfo)
         }
         dataInfo.EndBlock<int>();
 
-        // World configuration
+        // Realm configuration
         dataInfo.StartBlock<int>();
         {
             /* Config example
@@ -133,6 +133,6 @@ void RealmMgr::ToRealmPacket(WorldPacket& dataProxy, Packet& dataInfo)
         dataInfo << realm->IsLock();
     }
 
-    dataProxy << realmCount;
+    dataEntry << realmCount;
 }
 

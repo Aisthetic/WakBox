@@ -13,17 +13,16 @@ class RealmConfiguration : public QObject
     Q_OBJECT
 
 public:
-     RealmConfiguration(RealmConfigurationAvailable* confAvailable, Realm* realm) { m_confAvailable = confAvailable; m_realm = realm; }
-    ~RealmConfiguration() {}
+     RealmConfiguration(RealmConfigurationAvailable *confAvailable, Realm *realm);
+    ~RealmConfiguration();
 
      void SetValue(QString value);
-
-     QString GetValue() { return m_value; }
-     qint32 GetId() { return m_confAvailable->GetId(); }
+     QString GetValue();
+     qint32 GetId();
 
 private :
-    RealmConfigurationAvailable* m_confAvailable;
-    Realm* m_realm;
+    RealmConfigurationAvailable *m_confAvailable;
+    Realm *m_realm;
     QString m_value;
 };
 

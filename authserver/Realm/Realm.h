@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QHostAddress>
 #include "Define.h"
+#include "RealmConfigurationAvailable.h"
 
 class RealmConfiguration;
 
@@ -20,6 +21,8 @@ public:
         this->name = name;
     }
 };
+
+typedef QMap<RealmConfigurationPropertyId, RealmConfiguration*> RealmConfigurationMap;
 
 class Realm : public QObject
 {
@@ -47,10 +50,10 @@ public:
     void SetPlayerLimit(quint32 playerLimit) { m_playerLimit = playerLimit; }
     void Lock(bool locked) { m_locked = locked; }
     
-    void AddRealmConfiguration(RealmConfiguration);
-    void RemoveRealmConfiguration(qint32 id);
-    QList<RealmConfiguration> GetRealmConfigurationList();
-    RealmConfiguration GetRealmConfigurationById(qint32 id);
+    void AddConfiguration(RealmConfiguration *conf);
+    void ClearConfiguration();
+    RealmConfigurationMap GetConfigurations();
+    RealmConfiguration* GetConfigurationById(qint32 id);
 
     static bool CheckVersion(QString version);
 
@@ -63,7 +66,7 @@ private :
     RealmCommunity m_community;
     quint32 m_playerLimit;
     bool m_locked;
-    //QList<RealmConfiguration> m_configuration;
+    RealmConfigurationMap m_configurations;
 };
 
 #endif // REALM_H
